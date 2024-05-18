@@ -123,15 +123,14 @@ def save_response_to_file(response, output_path):
         print(f"Error saving response to file: {e}")
 
 def main():
-
     print("~~~STARTING EXTRACTS.py~~~")
     print("~~~STARTING EXTRACTS.py~~~")
     print("~~~STARTING EXTRACTS.py~~~")
 
     response = call_openai_api()
     if response:
-        # Use the specified directory
-        output_dir = '//crew_output'
+        # Use the relative directory
+        output_dir = 'crew_output'
         output_path = os.path.join(output_dir, 'api_response.json')
         
         # Ensure the output directory exists

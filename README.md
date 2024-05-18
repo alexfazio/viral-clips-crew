@@ -49,7 +49,9 @@ poetry install
 
 ## Usage
 
-After setting up, drag your desired clip into the `input_files` directory.
+After setting up, drag your desired clip into the `input_files` directory. 
+
+**Please ensure that the clip is less than 15 minutes in length. The current LLM context windows are approximately 15 minutes.**
 
 Run `viral-clips-crew` using Poetry with the following command:
 
@@ -58,6 +60,8 @@ poetry run python app.py
 ```
 
 This will kickstart the process from beginning to completion.
+
+Final output will be in the `subtitler_output` directory.
 
 ## Support
 
@@ -70,4 +74,3 @@ The code for `viral-clips-crew` is intended for demonstrative purposes and is no
 ## License
 
 This project is licensed under the terms of the MIT license.
-

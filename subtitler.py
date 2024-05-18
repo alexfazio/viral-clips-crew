@@ -77,6 +77,9 @@ def process_video_and_subtitles(video_path, subtitle_path, output_folder):
     """
     Full processing of video and subtitles.
     """
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     base_name = os.path.splitext(os.path.basename(video_path))[0]
     adjusted_subtitle_path = os.path.join(output_folder, base_name + '_adjusted.srt')
     utf8_subtitle_path = os.path.join(output_folder, base_name + '_utf8.srt')
@@ -94,6 +97,10 @@ if __name__ == "__main__":
     trimmed_videos = glob.glob('clipper_output/*_trimmed.mp4')
     subtitle_files = glob.glob('crew_output/*.srt')
     output_folder = "subtitler_output"  # Ensure this is correctly set
+
+    # Check if output_folder exists, create it if not
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     subtitle_dict = {os.path.splitext(os.path.basename(s))[0]: s for s in subtitle_files}
 

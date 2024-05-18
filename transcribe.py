@@ -40,13 +40,17 @@ def main(file):
         input_file_path = Path(file)
         print(f"Transcribing file: {input_file_path}\n")
 
+        # Ensure the output directory exists
+        output_dir = Path("whisper_output")
+        output_dir.mkdir(parents=True, exist_ok=True)
+
         # Run Whisper
         result = model.transcribe(str(input_file_path), fp16=False, verbose=False, language="en")
 
         output_file_name = input_file_path.stem
 
         if plain:
-            txt_path = Path("whisper_output") / f"{output_file_name}.txt"
+            txt_path = output_dir / f"{output_file_name}.txt"
             print(f"\nCreating text file")
 
             with open(txt_path, "w", encoding="utf-8") as txt:
@@ -56,11 +60,11 @@ def main(file):
 
         if srt:
             print(f"\nCreating SRT file")
-            srt_writer = get_writer("srt", str(Path("whisper_output")))
+            srt_writer = get_writer("srt", str(output_dir))
             srt_writer(result, output_file_name)
 
             # Construct the SRT file path manually
-            srt_path = Path("whisper_output") / f"{output_file_name}.srt"
+            srt_path = output_dir / f"{output_file_name}.srt"
 
             # Read the SRT subtitles from the generated file
             with open(srt_path, "r", encoding="utf-8") as srt_file:
@@ -68,13 +72,13 @@ def main(file):
 
         if vtt:
             print(f"\nCreating VTT file")
-            vtt_writer = get_writer("vtt", str(Path("whisper_output")))
+            vtt_writer = get_writer("vtt", str(output_dir))
             vtt_writer(result, output_file_name)
 
         if tsv:
             print(f"\nCreating TSV file")
 
-            tsv_writer = get_writer("tsv", str(Path("whisper_output")))
+            tsv_writer = get_writer("tsv", str(output_dir))
             tsv_writer(result, output_file_name)
 
         return result, transcript, subtitles

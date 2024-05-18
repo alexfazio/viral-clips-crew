@@ -13,6 +13,9 @@ def parse_timestamp(timestamp):
 def main(input_video, subtitle_file_path, output_folder):
     print('~~~TRIMMER: STARTED~~~')
 
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     with open(subtitle_file_path, 'r') as file:
         subtitles_content = file.read()
 
@@ -49,10 +52,14 @@ def main(input_video, subtitle_file_path, output_folder):
             y_offset = (height - crop_size) // 2
 
         # Re-encode the video to ensure frame accuracy and avoid sync issues
-        ffmpeg.input(input_video, ss=start_time, to=end_time) \
-              .filter('crop', crop_size, crop_size, x_offset, y_offset) \
-              .output(output_video_path, vcodec='libx264', acodec='copy', g=1, **{'map': '0:v', 'map': '0:a'}) \
-              .run()
+        (
+            ffmpeg
+            .input(input_video, ss=start_time, to=end_time)
+            .filter('crop', crop_size, crop_size, x_offset, y_offset)
+            .output(output_video_path, vcodec='libx264', acodec='aac', audio_bitrate='192k', vsync='vfr', map='0:a')
+            .run()
+        )
+
     except ffmpeg.Error as e:
         print(f"ffmpeg error: {e}")
 
@@ -62,6 +69,9 @@ if __name__ == "__main__":
     video_files = glob.glob('input_files/*.mp4')
     subtitle_files = glob.glob('crew_output/*.srt')
     output_folder = "clipper_output"
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     for video_file_path in video_files:
         for subtitle_file in subtitle_files:

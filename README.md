@@ -7,7 +7,7 @@ Here's an improved version of that part:
 </div>
 
 
-# `viral-clips-crew` Your CrewAI Powered Video Editing Assistant
+# Your CrewAI Powered Video Editing Assistant
 
 Are you a social media content curator? Skip the tedious editing process and get polished video highlights in minutes. `viral-clips-crew` watches and listens to long-form content, extracting the most striking and potentially viral segments, ready for publication on social media.
 

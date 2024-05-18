@@ -3,8 +3,9 @@ Here's an improved version of that part:
 # viral-clips-crew (alpha)
 
 <div align="center">
-  <img src="https://github.com/alexfazio/viral-clips-crew/assets/34505954/a065a40a-47c2-44fd-8c71-635dcd1eb658" width="400px" height="auto">
+  <img src="https://github.com/alexfazio/viral-clips-crew/assets/34505954/c69da629-06eb-4279-a5cb-0d8d7fc1dfee" width="600px" height="auto">
 </div>
+
 
 # `viral-clips-crew` Your CrewAI Powered Video Editing Assistant
 

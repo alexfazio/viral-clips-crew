@@ -72,6 +72,10 @@ If you like this project and want to support it, please consider leaving a star.
 
 The code for `viral-clips-crew` is intended for demonstrative purposes and is not meant for production use. The API keys are hardcoded and need to be replaced with your own. Always ensure your keys are kept secure.
 
+## Credits
+
+Thanks to [Rip&Tear](https://x.com/Cyb3rCh1ck3n) for his support on the early alpha build.
+
 ## License
 
 This project is licensed under the terms of the MIT license.

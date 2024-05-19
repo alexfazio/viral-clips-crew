@@ -1,5 +1,3 @@
-Here's an improved version of that part:
-
 # viral-clips-crew (alpha)
 
 <div align="center">

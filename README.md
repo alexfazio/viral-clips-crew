@@ -1,4 +1,4 @@
-# viral-clips-crew (alpha)
+# viral-clips-crew (prototype)
 
 <div align="center">
   <img src="https://github.com/alexfazio/viral-clips-crew/assets/34505954/c69da629-06eb-4279-a5cb-0d8d7fc1dfee" width="600px" height="auto">

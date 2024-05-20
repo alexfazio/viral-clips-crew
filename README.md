@@ -13,7 +13,6 @@ Are you a social media content curator? Skip the tedious editing process and get
 
 `viral-clips-crew` helps you repackage your valuable content in new and engaging ways to capture attention on social media and drive traffic back to the original long-form piece. Whether you're looking to refresh your own content or recycle content from other creators, this tool streamlines the process, making content repurposing effortless and efficient.
 
-
 ## Requirements
 
 This project requires:
@@ -77,3 +76,5 @@ Thanks to [Rip&Tear](https://x.com/Cyb3rCh1ck3n) for his support on the early pr
 ## License
 
 This project is licensed under the terms of the MIT license.
+
+[![Watch the video](https://i.imgur.com/TBD2bvj.png)](pic.twitter.com/8yvO0zIm2r)

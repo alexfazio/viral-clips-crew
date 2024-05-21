@@ -11,7 +11,7 @@ def parse_timestamp(timestamp):
     return datetime.strptime(timestamp, '%H:%M:%S.%f')
 
 def main(input_video, subtitle_file_path, output_folder):
-    print('~~~TRIMMER: STARTED~~~')
+    print('~~~CLIPPER: STARTED~~~')
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)

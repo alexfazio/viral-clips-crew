@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import transcribe
 import crew
 import extracts  # Import extracts module
-import trimmer
+import clipper
 import subtitler
 
 # Load environment variables
@@ -44,7 +44,7 @@ def process_subtitles(input_video_path, subtitle_file, output_video_folder):
     # Step 1: Trim the video
     trimmed_video_path = os.path.join(output_video_folder,
                                       f"{os.path.splitext(os.path.basename(subtitle_file))[0]}_trimmed.mp4")
-    trimmer.main(input_video_path, subtitle_file, output_video_folder)
+    clipper.main(input_video_path, subtitle_file, output_video_folder)
 
     # Wait for the trimmed video file to be created
     if not wait_for_file_existence(trimmed_video_path, timeout=60):

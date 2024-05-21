@@ -19,7 +19,7 @@ This project requires:
 
 - Python 3.7+
 - CrewAI
-- OpenAI API key
+- OpenAI API key / Google Gemini API key
 
 All required Python libraries are listed in `pyproject.toml`.
 

@@ -45,11 +45,13 @@ poetry install
 
 4. Open `.env` and insert your OpenAI API key.
 
+Here's the revised description:
+
 ## Usage
 
 After setting up, drag your desired clip into the `input_files` directory. 
 
-**Please ensure that the clip is less than 15 minutes in length. The current LLM context windows are approximately 15 minutes.**
+**Gemini can process videos up to 1 hour in length. If you are using the OpenAI API, please ensure that the clip is less than 15 minutes in length. The current LLM context windows are approximately 15 minutes.**
 
 Run `viral-clips-crew` using Poetry with the following command:
 

@@ -1,18 +1,9 @@
-import os
-from getpass import getpass
 from crewai import Agent, Task, Crew, Process
-from crewai.tasks.task_output import TaskOutput
-from pydantic import BaseModel
 from textwrap import dedent
 from langchain_community.chat_models import ChatOpenAI
-from langchain_community.llms import Ollama
 import datetime
-from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
-import glob
 from datetime import datetime
-from typing import List
-import json
 import sys
 import os
 import extracts  # Ensure this module is available and correctly imported

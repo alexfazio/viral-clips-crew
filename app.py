@@ -3,7 +3,7 @@ warnings.filterwarnings("ignore")
 
 import os
 import time
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 # from getpass import getpass
 import maskpass
 import transcribe

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PoetryConfigService">
+    <option name="poetryVirtualenvPaths">
+      <set>
+        <option value="$USER_HOME$/Library/Caches/pypoetry/virtualenvs/viral-clips-crew-vcW6vqeZ-py3.11/bin/python" />
+      </set>
+    </option>
+  </component>
+</project>

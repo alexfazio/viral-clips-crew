@@ -4,20 +4,20 @@ from textwrap import dedent
 # ↑ uncomment to use OpenAI API
 from langchain_google_genai import ChatGoogleGenerativeAI
 import datetime
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 from datetime import datetime
 import sys
 import os
-# from getpass import getpass
-import maskpass
 import extracts  # Ensure this module is available and correctly imported
 
 # Use maskpass to prompt for the password and mask it with '*'
-gemini_api_key = maskpass.askpass(prompt="Enter GEMINI_API_KEY: ", mask="*")
-os.environ["GEMINI_API_KEY"] = gemini_api_key
+# gemini_api_key = maskpass.askpass(prompt="Enter GEMINI_API_KEY: ", mask="*")
+#os.environ["GEMINI_API_KEY"] = gemini_api_key
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
 
 # Add API keys within `./.env` file
-# load_dotenv()
+load_dotenv()
 
 def main(extracts, subtitles):
 
@@ -41,7 +41,7 @@ def main(extracts, subtitles):
         verbose=True,
         max_iter=1,
         max_rpm=1,
-        llm=ChatGoogleGenerativeAI(model="gemini-pro",
+        llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",
                                    verbose=True,
                                    temperature=0.5,
                                    google_api_key=gemini_api_key)
@@ -68,7 +68,7 @@ def main(extracts, subtitles):
         verbose=True,
         max_iter=1,
         max_rpm=1,
-        llm=ChatGoogleGenerativeAI(model="gemini-pro",
+        llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",
                                    verbose=True,
                                    temperature=0.5,
                                    google_api_key=gemini_api_key)
@@ -95,7 +95,7 @@ def main(extracts, subtitles):
         verbose=True,
         max_iter=1,
         max_rpm=1,
-        llm=ChatGoogleGenerativeAI(model="gemini-pro",
+        llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest",
                                    verbose=True,
                                    temperature=0.5,
                                    google_api_key=gemini_api_key)

@@ -3,20 +3,20 @@ warnings.filterwarnings("ignore")
 
 import os
 import time
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 # from getpass import getpass
-import maskpass
+# import maskpass
 import transcribe
 import crew
 import extracts  # Import extracts module
 import clipper
 import subtitler
 
-api_key = maskpass.askpass(prompt="Enter OPENAI_API_KEY: ", mask="*")
-os.environ["OPENAI_API_KEY"] = api_key
+# api_key = maskpass.askpass(prompt="Enter OPENAI_API_KEY: ", mask="*")
+# os.environ["OPENAI_API_KEY"] = api_key
 
 # Load environment variables
-# load_dotenv()
+load_dotenv()
 
 def file_ready(filename):
     """Check if the file is ready by attempting to append to it."""

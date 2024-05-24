@@ -29,6 +29,8 @@ icecream = "*"
 crewai_tools = "*"
 openai = "*"
 send2trash = "^1.8.3"
+langchain_google_genai = "*"
+maskpass = "^0.3.7"
 
 [[tool.poetry.packages]]
 include = "*.py"

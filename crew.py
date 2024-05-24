@@ -1,15 +1,23 @@
 from crewai import Agent, Task, Crew, Process
 from textwrap import dedent
-from langchain_community.chat_models import ChatOpenAI
+# from langchain_community.chat_models import ChatOpenAI
+# ↑ uncomment to use OpenAI API
+from langchain_google_genai import ChatGoogleGenerativeAI
 import datetime
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from datetime import datetime
 import sys
 import os
+# from getpass import getpass
+import maskpass
 import extracts  # Ensure this module is available and correctly imported
 
+# Use maskpass to prompt for the password and mask it with '*'
+gemini_api_key = maskpass.askpass(prompt="Enter GEMINI_API_KEY: ", mask="*")
+os.environ["GEMINI_API_KEY"] = gemini_api_key
+
 # Add API keys within `./.env` file
-load_dotenv()
+# load_dotenv()
 
 def main(extracts, subtitles):
 
@@ -33,7 +41,11 @@ def main(extracts, subtitles):
         verbose=True,
         max_iter=1,
         max_rpm=1,
-        llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
+        llm=ChatGoogleGenerativeAI(model="gemini-pro",
+                                   verbose=True,
+                                   temperature=0.5,
+                                   google_api_key=gemini_api_key)
+        # llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
         # ↑ uncomment to use OpenAI API + "gpt-4"
         # llm=ChatAnthropic(model='claude-3-opus-20240229', temperature=0.5),
         # ↑ uncomment to use Anthropic's API + "claude-3-opus-20240229"
@@ -56,7 +68,11 @@ def main(extracts, subtitles):
         verbose=True,
         max_iter=1,
         max_rpm=1,
-        llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
+        llm=ChatGoogleGenerativeAI(model="gemini-pro",
+                                   verbose=True,
+                                   temperature=0.5,
+                                   google_api_key=gemini_api_key)
+        # llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
         # ↑ uncomment to use OpenAI API + "gpt-4"
         # llm=ChatAnthropic(model='claude-3-opus-20240229', temperature=0.5),
         # ↑ uncomment to use Anthropic's API + "claude-3-opus-20240229"
@@ -79,7 +95,11 @@ def main(extracts, subtitles):
         verbose=True,
         max_iter=1,
         max_rpm=1,
-        llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
+        llm=ChatGoogleGenerativeAI(model="gemini-pro",
+                                   verbose=True,
+                                   temperature=0.5,
+                                   google_api_key=gemini_api_key)
+        # llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
         # ↑ uncomment to use OpenAI API + "gpt-4"
         # llm=ChatAnthropic(model='claude-3-opus-20240229', temperature=0.5),
         # ↑ uncomment to use Anthropic's API + "claude-3-opus-20240229"

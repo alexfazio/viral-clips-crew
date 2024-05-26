@@ -1,3 +1,5 @@
+import logging
+
 from crewai import Agent, Task, Crew, Process
 from textwrap import dedent
 from langchain_community.chat_models import ChatOpenAI
@@ -7,9 +9,13 @@ from datetime import datetime
 import sys
 import os
 import extracts  # Ensure this module is available and correctly imported
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Add API keys within `./.env` file
 load_dotenv()
+
 
 def main(extracts, subtitles):
 
@@ -310,12 +316,13 @@ def main(extracts, subtitles):
     )
 
     result = crew.kickoff()
-    print(dedent(f"""\n\n########################"""))
-    print(dedent(f"""## Here is your custom crew run result:"""))
-    print(dedent(f"""########################\n"""))
-    print(result)
+    logging.info(dedent(f"""\n\n########################"""))
+    logging.info(dedent(f"""## Here is your custom crew run result:"""))
+    logging.info(dedent(f"""########################\n"""))
+    logging.info(result)
 
     return result
+
 
 if __name__ == "__main__":
 
@@ -344,7 +351,7 @@ if __name__ == "__main__":
 
             main(extracts_data, subtitles)
         else:
-            print("No .srt or .txt files found in the whisper_output directory.")
+            logging.warning("No .srt or .txt files found in the whisper_output directory.")
     else:
-        print(f"Directory not found: {whisper_output_dir}")
+        logging.info(f"Directory not found: {whisper_output_dir}")
         sys.exit(1)

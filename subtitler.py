@@ -3,6 +3,10 @@ import glob
 import subprocess
 import re
 import datetime
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def adjust_subtitle_timing(subtitle_path, output_path):
     """
@@ -36,8 +40,8 @@ def adjust_subtitle_timing(subtitle_path, output_path):
                     new_times.append(new_time.strftime('%H:%M:%S,%f')[:-3])
                 new_line = time_pattern.sub(lambda x: new_times.pop(0), line)
             file.write(new_line)
+    logging.info(f"Subtitles timings adjusted: {output_path}")
 
-    print(f"Subtitles timings adjusted: {output_path}")
 
 def convert_to_utf8(subtitle_path, output_path):
     """
@@ -49,10 +53,10 @@ def convert_to_utf8(subtitle_path, output_path):
 
         with open(output_path, 'w', encoding='utf-8') as file:
             file.write(content)
-
-        print(f"Subtitle encoding converted: {output_path}")
+        logging.info(f"Subtitle encoding converted: {output_path}")
     except Exception as e:
-        print(f"Error during subtitle conversion: {e}")
+        logging.error(f"Error during subtitle conversion: {e}")
+
 
 def burn_subtitles(video_path, subtitle_path, output_video_path):
     """
@@ -68,9 +72,10 @@ def burn_subtitles(video_path, subtitle_path, output_video_path):
     
     try:
         subprocess.run(cmd, check=True)
-        print(f"Subtitles have been burned into the video: {output_video_path}")
+        logging.info(f"Subtitles have been burned into the video: {output_video_path}")
     except subprocess.CalledProcessError as e:
-        print(f"Error during ffmpeg processing: {e}")
+        logging.error(f"Error burning subtitles: {e}")
+
 
 def process_video_and_subtitles(video_path, subtitle_path, output_folder):
     """
@@ -90,7 +95,8 @@ def process_video_and_subtitles(video_path, subtitle_path, output_folder):
 
     os.remove(adjusted_subtitle_path)
     os.remove(utf8_subtitle_path)
-    print("Temporary subtitle files removed.")
+    logging.info("Temporary subtitle files removed.")
+
 
 if __name__ == "__main__":
     trimmed_videos = glob.glob('clipper_output/*_trimmed.mp4')
@@ -109,4 +115,4 @@ if __name__ == "__main__":
         if subtitle_file:
             process_video_and_subtitles(trimmed_video, subtitle_file, output_folder)
         else:
-            print(f"Subtitle file not found for {trimmed_video}")
+            logging.error(f"Subtitle file not found for {trimmed_video}")

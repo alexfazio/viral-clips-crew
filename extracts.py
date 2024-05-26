@@ -4,6 +4,9 @@ import os
 from openai import OpenAI
 from textwrap import dedent
 from dotenv import load_dotenv
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 load_dotenv()
 
@@ -33,10 +36,10 @@ def call_openai_api():
             with open(subtitles_file, 'r') as file:
                 subtitles = file.read()
         else:
-            print("No .srt or .txt files found in the whisper_output directory.")
+            logging.warning("No .srt or .txt files found in the whisper_output directory.")
             return []
     else:
-        print(f"Directory not found: {whisper_output_dir}")
+        logging.error(f"Directory not found: {whisper_output_dir}")
         sys.exit(1)
 
     prompt = dedent(f"""
@@ -110,6 +113,7 @@ def call_openai_api():
         print(f"Error calling OpenAI API: {e}")
         return []
 
+
 def save_response_to_file(response, output_path):
     try:
         # Since response is a list of clip texts, we need to format it correctly
@@ -117,15 +121,17 @@ def save_response_to_file(response, output_path):
         
         with open(output_path, 'w') as f:
             json.dump(response_content, f, indent=4)
-        
+
+        logging.info(f"Response saved to {output_path}")
         print(f"Response saved to {output_path}")
     except Exception as e:
         print(f"Error saving response to file: {e}")
 
+
 def main():
-    print("~~~STARTING EXTRACTS.py~~~")
-    print("~~~STARTING EXTRACTS.py~~~")
-    print("~~~STARTING EXTRACTS.py~~~")
+    logging.info('~~~STARTING EXTRACTS.py~~~')
+    logging.info('~~~STARTING EXTRACTS.py~~~')
+    logging.info('~~~STARTING EXTRACTS.py~~~')
 
     response = call_openai_api()
     if response:
@@ -138,6 +144,7 @@ def main():
         
         save_response_to_file(response, output_path)
     return response
+
 
 if __name__ == "__main__":
     main()

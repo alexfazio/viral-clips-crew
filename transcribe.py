@@ -2,9 +2,11 @@ import os, re
 import torch
 from pathlib import Path
 from pytube import YouTube
-
 import whisper
 from whisper.utils import get_writer
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 def main(file):
@@ -38,7 +40,7 @@ def main(file):
         the spoken language ("language"), which is detected when `decode_options["language"]` is None.
         """
         input_file_path = Path(file)
-        print(f"Transcribing file: {input_file_path}\n")
+        logging.info(f"Transcribing file: {input_file_path}\n")
 
         # Ensure the output directory exists
         output_dir = Path("whisper_output")
@@ -51,7 +53,7 @@ def main(file):
 
         if plain:
             txt_path = output_dir / f"{output_file_name}.txt"
-            print(f"\nCreating text file")
+            logging.info(f"Creating text file: {txt_path}")
 
             with open(txt_path, "w", encoding="utf-8") as txt:
                 txt.write(result["text"])
@@ -59,7 +61,7 @@ def main(file):
             transcript = result["text"]
 
         if srt:
-            print(f"\nCreating SRT file")
+            logging.info(f"Creating SRT file")
             srt_writer = get_writer("srt", str(output_dir))
             srt_writer(result, output_file_name)
 
@@ -71,12 +73,12 @@ def main(file):
                 subtitles = srt_file.read()
 
         if vtt:
-            print(f"\nCreating VTT file")
+            logging.info(f"Creating VTT file")
             vtt_writer = get_writer("vtt", str(output_dir))
             vtt_writer(result, output_file_name)
 
         if tsv:
-            print(f"\nCreating TSV file")
+            logging.info(f"Creating TSV file")
 
             tsv_writer = get_writer("tsv", str(output_dir))
             tsv_writer(result, output_file_name)
@@ -120,7 +122,7 @@ if __name__ == "__main__":
         for filename in os.listdir(input_folder):
             if filename.endswith(".mp4"):
                 file_path = os.path.join(input_folder, filename)
-                print(f"Processing file: {file_path}")
+                logging.info(f"Processing file: {file_path}")
                 main(file_path)
     else:
-        print(f"Input folder not found: {input_folder}")
+        logging.error(f"Input folder not found: {input_folder}")

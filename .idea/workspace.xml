@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ytdl.py" afterDir="false" />
+    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="dev branch">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/github.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/github.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/poetry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/poetry.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crew_output/api_response.json" beforeDir="false" afterPath="$PROJECT_DIR$/crew_output/api_response.json" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
@@ -79,12 +74,25 @@
       <workItem from="1716564333609" duration="3789000" />
       <workItem from="1716908797414" duration="99000" />
       <workItem from="1716908900440" duration="50000" />
-      <workItem from="1716908957387" duration="4025000" />
+      <workItem from="1716908957387" duration="4130000" />
     </task>
+    <task id="LOCAL-00001" summary="dev branch">
+      <option name="closed" value="true" />
+      <created>1716913002139</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1716913002139</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="dev branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="dev branch" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/28_05_2024_2$ytdl.coverage" NAME="ytdl Coverage Results" MODIFIED="1716910361583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -86,20 +86,23 @@ def main():
         logging.info("2: Use an existing video file")
 
     def user_choice():
-        choice = input("Please choose either option 1 or 2.")
+        choice = input("Please choose either option 1 or 2: ")
         return choice
 
     while True:
-        user_prompt()
-        user_choice()
+        choice = user_choice()
 
-        if user_choice == '1':
+        if choice == '1':
             logging.info("Submitting a Youtube Video Link")
             # Download video from YouTube
             url = input("Enter the YouTube URL: ")
             get_video_from_youtube_url(url, input_folder)
-        if user_choice == '2':
+            break
+        elif choice == '2':
             logging.info("Submitting an existing video file")
+            break
+        else:
+            logging.info("Invalid choice. Please try again.")
 
 
     # Ensure output directories exist

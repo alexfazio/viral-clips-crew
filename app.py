@@ -11,6 +11,7 @@ import extracts  # Import extracts module
 import clipper
 import subtitler
 import logging
+from ytdl import get_video_from_youtube_url  # Import the function from ytdl.py
 
 # api_key = maskpass.askpass(prompt="Enter OPENAI_API_KEY: ", mask="*")
 # os.environ["OPENAI_API_KEY"] = api_key
@@ -77,6 +78,29 @@ def main():
     input_folder = 'input_files'
     output_video_folder = 'clipper_output'
     crew_output_folder = 'crew_output'
+
+    # User selection
+    def user_prompt():
+        logging.info("Please select an option to proceed:")
+        logging.info("1: Submit a Youtube Video Link")
+        logging.info("2: Use an existing video file")
+
+    def user_choice():
+        choice = input("Please choose either option 1 or 2.")
+        return choice
+
+    while True:
+        user_prompt()
+        user_choice()
+
+        if user_choice == '1':
+            logging.info("Submitting a Youtube Video Link")
+            # Download video from YouTube
+            url = input("Enter the YouTube URL: ")
+            get_video_from_youtube_url(url, input_folder)
+        if user_choice == '2':
+            logging.info("Submitting an existing video file")
+
 
     # Ensure output directories exist
     os.makedirs(output_video_folder, exist_ok=True)

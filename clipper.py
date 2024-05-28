@@ -3,15 +3,22 @@ import re
 import ffmpeg
 from datetime import datetime
 import glob
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def convert_timestamp(timestamp):
     return timestamp.replace(',', '.').strip()
 
+
 def parse_timestamp(timestamp):
     return datetime.strptime(timestamp, '%H:%M:%S.%f')
 
+
 def main(input_video, subtitle_file_path, output_folder):
-    print('~~~CLIPPER: STARTED~~~')
+    logging.info('~~~CLIPPER: STARTED~~~')
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -21,7 +28,7 @@ def main(input_video, subtitle_file_path, output_folder):
 
     timestamps = re.findall(r'\d{2}:\d{2}:\d{2},\d{3}', subtitles_content)
     if not timestamps:
-        print("No timestamps found in the subtitles.")
+        logging.warning("No timestamps found in the subtitles.")
         return
 
     start_time = convert_timestamp(timestamps[0])
@@ -31,7 +38,7 @@ def main(input_video, subtitle_file_path, output_folder):
     subtitle_base_name = os.path.splitext(os.path.basename(subtitle_file_path))[0]
     output_video_path = os.path.join(output_folder, f"{subtitle_base_name}_trimmed.mp4")
 
-    print(f"Output path: {output_video_path}")  # Debugging output
+    logging.info(f"Output path: {output_video_path}")
 
     # Use ffmpeg to trim and crop the video to 1:1 aspect ratio
     try:
@@ -61,9 +68,10 @@ def main(input_video, subtitle_file_path, output_folder):
         )
 
     except ffmpeg.Error as e:
-        print(f"ffmpeg error: {e}")
+        logging.error(f"ffmpeg error: {e}")
 
-    print(f"Trimmed video saved to {output_video_path}")
+    logging.info(f"Trimmed video saved to {output_video_path}")
+
 
 if __name__ == "__main__":
     video_files = glob.glob('input_files/*.mp4')

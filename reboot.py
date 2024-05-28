@@ -1,5 +1,9 @@
 import os
 from send2trash import send2trash
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def move_files_to_trash(directory, exclude_files=None):
     """
@@ -12,18 +16,19 @@ def move_files_to_trash(directory, exclude_files=None):
         exclude_files = []
 
     if not os.path.exists(directory):
-        print(f"Directory not found: {directory}")
+        logging.error(f"Directory not found: {directory}")
         return
 
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if filename not in exclude_files:
             send2trash(file_path)
-            print(f"Moved to trash: {file_path}")
+            logging.info(f"Moved to trash: {file_path}")
 
     # Move the directory itself to trash
     send2trash(directory)
-    print(f"Moved to trash: {directory}")
+    logging.info(f"Moved to trash: {directory}")
+
 
 def clear_file_contents(file_path):
     """
@@ -33,7 +38,8 @@ def clear_file_contents(file_path):
     """
     with open(file_path, 'w') as file:
         file.write('')
-    print(f"Cleared contents of file: {file_path}")
+    logging.info(f"Cleared contents of file: {file_path}")
+
 
 def main():
     clipper_output_dir = 'clipper_output'
@@ -52,10 +58,11 @@ def main():
         file_path = os.path.join(crew_output_dir, filename)
         if filename != api_response_file:
             send2trash(file_path)
-            print(f"Moved to trash: {file_path}")
+            logging.info(f"Moved to trash: {file_path}")
 
     # Clear the contents of api_response.json
     clear_file_contents(os.path.join(crew_output_dir, api_response_file))
+
 
 if __name__ == "__main__":
     main()

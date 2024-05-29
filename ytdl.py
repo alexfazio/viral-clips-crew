@@ -1,29 +1,8 @@
 from pytube import YouTube
 from pathlib import Path
-import xml.etree.ElementTree as et
-import logging
-
-
-def parse_auto_generated_captions(xml_captions):
-    root = et.fromstring(xml_captions)
-    srt_captions = []
-    for i, child in enumerate(root.findall('.//body/p')):
-        text = ''.join(child.itertext()).strip()
-        if not text:
-            continue
-        start = float(child.attrib.get('t', '0')) / 1000.0
-        duration = float(child.attrib.get('d', '0')) / 1000.0
-        end = start + duration
-        srt_captions.append(f"{i + 1}\n{format_time(start)} --> {format_time(end)}\n{text}\n")
-    return '\n'.join(srt_captions)
-
-
-def format_time(seconds):
-    milliseconds = int((seconds % 1) * 1000)
-    seconds = int(seconds)
-    minutes, seconds = divmod(seconds, 60)
-    hours, minutes = divmod(minutes, 60)
-    return f"{hours:02}:{minutes:02}:{seconds:02},{milliseconds:03}"
+import xml.etree.ElementTree as ElementTree
+from datetime import timedelta
+import os
 
 
 def get_video_from_youtube_url(url, save_path=None):
@@ -42,46 +21,97 @@ def get_video_from_youtube_url(url, save_path=None):
         video_file.rename(new_video_file)
         video_file = new_video_file
 
-    # Fetch and save subtitles if available
-    subtitles = yt.captions
-    if subtitles:
-        # Look for English captions, including auto-generated ones
-        caption = subtitles.get('en') or subtitles.get('a.en')
-        if not caption:
-            # Use the first available caption if English is not found
-            caption = next(iter(subtitles.values()))
-            logging.warning(f"No English captions available, using {caption.code} instead.")
-        else:
-            logging.info(f"Using captions in {caption.code}")
-
-        try:
-            if caption.code.startswith('a.'):
-                # Handle auto-generated captions
-                srt_caption = parse_auto_generated_captions(caption.xml_captions)
-            else:
-                srt_caption = caption.generate_srt_captions()
-
-            subtitle_path = save_path / f"{filename}.srt"
-            with open(subtitle_path, 'w') as file:
-                file.write(srt_caption)
-            logging.info("Subtitles downloaded successfully.")
-
-            # Save transcription as plain text
-            transcript_text = "\n".join(
-                line.strip() for line in srt_caption.splitlines() if "-->" not in line and line.strip())
-            transcript_path = save_path / f"{filename}.txt"
-            with open(transcript_path, 'w') as file:
-                file.write(transcript_text)
-            logging.info("Transcription downloaded successfully.")
-        except Exception as e:
-            logging.error(f"An error occurred while generating captions: {e}")
-    else:
-        logging.warning("No subtitles available for this video.")
+    # Download subtitles if available
+    download_subtitles(yt, filename)
 
     return str(video_file)
 
 
+def download_subtitles(yt, filename):
+    output_dir = Path("./whisper_output")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    captions = yt.captions
+    if captions:
+        for lang in captions:
+            print(f"Downloading captions for language: {lang.code}")
+            xml_captions = captions[lang.code].xml_captions
+            srt_captions = xml_caption_to_srt(xml_captions)
+            srt_file_path = output_dir / f"{filename}_{lang.code}.srt"
+            txt_file_path = output_dir / f"{filename}_{lang.code}.txt"
+            
+            # Write SRT file
+            with open(srt_file_path, 'w', encoding='utf-8') as f:
+                f.write(srt_captions)
+            
+            # Write plain text transcript
+            plain_text = srt_to_plain_text(srt_captions)
+            with open(txt_file_path, 'w', encoding='utf-8') as f:
+                f.write(plain_text)
+            print(f"Captions saved to {srt_file_path} and {txt_file_path}")
+    else:
+        print("No captions available for this video.")
+
+
+def srt_to_plain_text(srt_captions):
+    lines = srt_captions.split('\n')
+    plain_text_lines = []
+    for line in lines:
+        if not line.strip().isdigit() and '-->' not in line:
+            plain_text_lines.append(line.strip())
+    return ' '.join(plain_text_lines).replace('  ', ' ')
+
+
+def xml_caption_to_srt(xml_captions):
+    segments = []
+    root = ElementTree.fromstring(xml_captions)
+    for i, child in enumerate(root.findall('.//body//p')):
+        caption = ''
+        if len(list(child)) == 0:
+            # simple <p> tag
+            caption = child.text or ''
+        else:
+            # <p> with <s> and <font> children
+            for s in list(child):
+                if s.tag == 's':
+                    caption += (s.text or '') + ' '
+                elif s.tag == 'font':
+                    caption += (s.text or '') + ' '
+        caption = ' '.join(caption.split())  # Normalize spaces
+        if not caption:
+            continue  # Skip empty captions
+
+        try:
+            duration = float(child.attrib["d"]) / 1000.0
+        except KeyError:
+            duration = 0.0
+        start = float(child.attrib.get("t", 0.0)) / 1000.0
+        end = start + duration
+
+        sequence_number = len(segments) + 1
+        segment = "{0}\n{1} --> {2}\n{3}\n".format(
+            sequence_number,
+            format_time(start),
+            format_time(end),
+            caption
+        )
+        segments.append(segment)
+    return "\n".join(segments).strip()
+
+
+def format_time(seconds):
+    td = str(timedelta(seconds=seconds))
+    parts = td.split(':')
+    hours, minutes = parts[0], parts[1]
+    if '.' in parts[2]:
+        seconds, milliseconds = parts[2].split('.')
+    else:
+        seconds, milliseconds = parts[2], '000'
+    milliseconds = milliseconds[:3].ljust(3, '0')  # Ensure milliseconds are exactly 3 digits
+    return "{:02}:{:02}:{:02},{:03}".format(int(hours), int(minutes), int(seconds), int(milliseconds))
+
+
 if __name__ == "__main__":
     url = input("Enter the YouTube URL: ")
-    logging.info(get_video_from_youtube_url(url, "./input_files"))
-
+    save_path = "./input_files"
+    print(get_video_from_youtube_url(url, save_path))

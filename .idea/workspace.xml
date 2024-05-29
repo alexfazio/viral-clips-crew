@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="dev branch">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/github.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/github.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/poetry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/poetry.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crew_output/api_response.json" beforeDir="false" afterPath="$PROJECT_DIR$/crew_output/api_response.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ytdl.py" beforeDir="false" afterPath="$PROJECT_DIR$/ytdl.py" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +41,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.test.executor": "Run",
     "Python.ytdl.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
@@ -75,6 +81,7 @@
       <workItem from="1716908797414" duration="99000" />
       <workItem from="1716908900440" duration="50000" />
       <workItem from="1716908957387" duration="4130000" />
+      <workItem from="1716975869213" duration="13355000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />
@@ -96,5 +103,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/28_05_2024_2$ytdl.coverage" NAME="ytdl Coverage Results" MODIFIED="1716910361583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/29_05_2024$test.coverage" NAME="test Coverage Results" MODIFIED="1717001601805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +75,7 @@
       <workItem from="1716908900440" duration="50000" />
       <workItem from="1716908957387" duration="4130000" />
       <workItem from="1716975869213" duration="13355000" />
-      <workItem from="1717146974093" duration="6219000" />
+      <workItem from="1717146974093" duration="7447000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />
@@ -93,7 +93,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717163145407</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactor(logging): replace print statements with logging">
+      <option name="closed" value="true" />
+      <created>1717163180662</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1717163180662</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

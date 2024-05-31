@@ -17,7 +17,7 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 
 def call_openai_api():
-    print("~~~STARTING call_openai_api~~~")
+    logging.info("STARTING call_openai_api")
 
     # Check if the whisper_output directory exists and contains .srt and .txt files
     whisper_output_dir = 'whisper_output'
@@ -103,11 +103,11 @@ def call_openai_api():
         response_data = json.loads(response.choices[0].message.content)
         clip_texts = [clip['text'] for clip in response_data['clips']]
 
-        print("~~~EXTRACTS.py RESPONSE~~~")
+        logging.info("[START] extracts.py RESPONSE")
         print("```")
         print(json.dumps(response_data, indent=4))
         print("```")
-        print("~~~EXTRACTS.py RESPONSE~~~")
+        logging.info("[END] extracts.py RESPONSE")
         return clip_texts
     except Exception as e:
         print(f"Error calling OpenAI API: {e}")
@@ -129,9 +129,7 @@ def save_response_to_file(response, output_path):
 
 
 def main():
-    logging.info('~~~STARTING EXTRACTS.py~~~')
-    logging.info('~~~STARTING EXTRACTS.py~~~')
-    logging.info('~~~STARTING EXTRACTS.py~~~')
+    logging.info('STARTING extracts.py')
 
     response = call_openai_api()
     if response:

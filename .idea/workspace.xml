@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="dev branch">
-      <change beforePath="$PROJECT_DIR$/.idea/github.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/github.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/poetry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/poetry.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input_files/alibaba-31-05-2024_01-41-47.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ytdl.py" beforeDir="false" afterPath="$PROJECT_DIR$/ytdl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crew_output/api_response.json" beforeDir="false" afterPath="$PROJECT_DIR$/crew_output/api_response.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/extracts.py" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +42,7 @@
     "Python.ytdl.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "last_opened_file_path": "/Users/alex/PycharmProjects/github-repos/viral-clips-crew/24-05-2024_05-25-26/input_files",
+    "last_opened_file_path": "/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-31-05-2024_11-16-03/input_files",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -82,6 +79,7 @@
       <workItem from="1716908900440" duration="50000" />
       <workItem from="1716908957387" duration="4130000" />
       <workItem from="1716975869213" duration="13355000" />
+      <workItem from="1717146974093" duration="6133000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />

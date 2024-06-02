@@ -14,6 +14,16 @@ from ytdl import get_video_from_youtube_url
 # Load environment variables
 load_dotenv()
 
+# List of required environment variables
+required_vars = ['OPENAI_API_KEY', 'GEMINI_API_KEY']
+
+# Check if each required environment variable is set and not 'None'
+for var in required_vars:
+    value = os.getenv(var)
+    if value is None or value == 'None':
+        raise EnvironmentError(f"Required environment variable {var} is not set or is set to 'None'.")
+
+
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

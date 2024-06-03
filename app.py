@@ -38,21 +38,20 @@ def file_ready(filename):
         return False
 
 
-def wait_for_file(filename, timeout=30):
-    """Wait for a file to be fully written and ready."""
+def wait_for_file(filepath, timeout=30):
+    """Wait for a file to be created, exist, and be fully written and ready."""
+    def file_ready(filename):
+        """Check if the file is ready by attempting to append to it."""
+        try:
+            with open(filename, 'ab'):
+                return True
+        except IOError:
+            logging.error(f"Error: File not ready: {filename}")
+            return False
+
     start_time = time.time()
     while time.time() - start_time < timeout:
-        if file_ready(filename):
-            return True
-        time.sleep(1)
-    return False
-
-
-def wait_for_file_existence(filepath, timeout=30):
-    """Wait for a file to be created and exist."""
-    start_time = time.time()
-    while time.time() - start_time < timeout:
-        if os.path.exists(filepath):
+        if os.path.exists(filepath) and file_ready(filepath):
             return True
         time.sleep(1)
     return False

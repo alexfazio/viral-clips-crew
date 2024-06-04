@@ -65,7 +65,7 @@ def process_subtitles(input_video_path, subtitle_file, output_video_folder):
     clipper.main(input_video_path, subtitle_file, output_video_folder)
 
     # Wait for the trimmed video file to be created
-    if not wait_for_file_existence(trimmed_video_path, timeout=60):
+    if not wait_for_file(trimmed_video_path, timeout=60):
         logging.error(f"Error: Trimmed video file not found: {trimmed_video_path}")
         return
 

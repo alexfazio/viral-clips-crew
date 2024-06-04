@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="ytdl">
       <change beforePath="$PROJECT_DIR$/.idea/github.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/github.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/poetry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/poetry.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ytdl.py" beforeDir="false" afterPath="$PROJECT_DIR$/ytdl.py" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,11 +39,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.app.executor&quot;: &quot;Debug&quot;,
     &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;Python.ytdl.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-31-05-2024_11-16-03/input_files&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-03-06-2024_03-30-50/input_files&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,6 +83,8 @@
       <workItem from="1716975869213" duration="13355000" />
       <workItem from="1717146974093" duration="7447000" />
       <workItem from="1717331948244" duration="860000" />
+      <workItem from="1717421454075" duration="15550000" />
+      <workItem from="1717484059308" duration="98000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />
@@ -116,10 +119,23 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="dev branch" />
     <MESSAGE value="refactor(logging): replace print statements with logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor(logging): replace print statements with logging" />
+    <MESSAGE value="ytdl" />
+    <option name="LAST_COMMIT_MESSAGE" value="ytdl" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>189</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/28_05_2024_2$ytdl.coverage" NAME="ytdl Coverage Results" MODIFIED="1716910361583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/29_05_2024$test.coverage" NAME="test Coverage Results" MODIFIED="1717001601805" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/vcc_03_06_2024_03_30_50$app.coverage" NAME="app Coverage Results" MODIFIED="1717426221264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

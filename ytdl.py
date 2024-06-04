@@ -2,6 +2,8 @@ import logging
 import os
 import re
 from youtube_transcript_api import YouTubeTranscriptApi
+from pytube import YouTube
+from pathlib import Path
 
 def extract_video_id(yt_vid_url):
     # Step 2: Create a regex pattern to match YouTube video IDs
@@ -13,6 +15,26 @@ def extract_video_id(yt_vid_url):
         return match.group(1)
     else:
         return None
+
+def yt_vid_url_to_mp4(yt_vid_url, mp4_dir_save_path):
+
+    # Create the directory if it doesn't exist
+    os.makedirs(os.path.dirname(mp4_dir_save_path), exist_ok=True)
+
+    yt = YouTube(yt_vid_url)
+    save_path = Path(mp4_dir_save_path) if mp4_dir_save_path else Path(".")
+    filename = yt.title.replace(" ", "_")  # Replace spaces with underscores to avoid issues
+    s = (yt.streams.filter(progressive=True, file_extension='mp4')
+         .order_by('resolution').desc().first()
+         )
+    video_path = s.download(output_path=mp4_dir_save_path, filename=filename)
+    video_file = Path(video_path)
+
+    # Ensure the file has a .mp4 extension
+    if not video_file.suffix == '.mp4':
+        new_video_file = video_file.with_suffix('.mp4')
+        video_file.rename(new_video_file)
+        video_file = new_video_file
 
 def yt_vid_id_to_srt(transcript, yt_video_id, srt_save_path):
 
@@ -61,6 +83,7 @@ def main(yt_vid_url, mp4_dir_save_path, srt_dir_save_path, txt_dir_save_path):
     yt_video_id = extract_video_id(yt_vid_url)
     transcript = YouTubeTranscriptApi.get_transcript(yt_video_id)
 
+    yt_vid_url_to_mp4(yt_vid_url, mp4_dir_save_path)
     yt_vid_id_to_srt(transcript, yt_video_id, srt_dir_save_path)
     yt_vid_id_to_txt(transcript,  yt_video_id, txt_dir_save_path)
 

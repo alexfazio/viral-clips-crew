@@ -21,6 +21,7 @@ langchain-anthropic = "*"
 # ↑ uncomment to use Anthropic's API
 # whisper = "*"
 openai-whisper = {git = "https://github.com/openai/whisper.git"}
+pytube = {git = "https://github.com/pytube/pytube.git"}
 torch = "*"
 ffmpeg-python = "*"
 icecream = "*"

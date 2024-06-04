@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/github.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/github.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/poetry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/poetry.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
@@ -43,7 +39,7 @@
     &quot;Python.ytdl.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-31-05-2024_11-16-03/input_files&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-04-06-2024_05-00-23/input_files&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,6 +78,7 @@
       <workItem from="1716975869213" duration="13355000" />
       <workItem from="1717146974093" duration="7447000" />
       <workItem from="1717331948244" duration="860000" />
+      <workItem from="1717513228476" duration="2962000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />

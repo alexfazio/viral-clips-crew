@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="fix(ytdl): youtube_transcript_api">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ytdl.py" beforeDir="false" afterPath="$PROJECT_DIR$/ytdl.py" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
@@ -124,7 +123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717533366277</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix(ytdl): youtube_transcript_api">
+      <option name="closed" value="true" />
+      <created>1717535864395</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1717535864395</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

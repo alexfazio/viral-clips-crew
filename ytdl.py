@@ -24,6 +24,10 @@ def yt_vid_url_to_mp4(yt_vid_url, mp4_dir_save_path):
     yt = YouTube(yt_vid_url)
     save_path = Path(mp4_dir_save_path) if mp4_dir_save_path else Path(".")
     filename = yt.title.replace(" ", "_")  # Replace spaces with underscores to avoid issues
+    # Replace or remove characters that are not valid in file names
+    invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
+    for char in invalid_chars:
+        filename = filename.replace(char, '')
     s = (yt.streams.filter(progressive=True, file_extension='mp4')
          .order_by('resolution').desc().first()
          )

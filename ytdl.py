@@ -1,118 +1,75 @@
 import logging
-from pytube import YouTube
-from pathlib import Path
-import xml.etree.ElementTree as ElementTree
-from datetime import timedelta
 import os
+import re
+from youtube_transcript_api import YouTubeTranscriptApi
 
+def extract_video_id(yt_vid_url):
+    # Step 2: Create a regex pattern to match YouTube video IDs
+    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})'
 
-def get_video_from_youtube_url(url: str, save_path: str = None) -> tuple:
-    yt = YouTube(url)
-    save_path = Path(save_path) if save_path else Path(".")
-    filename = yt.title.replace(" ", "_")  # Replace spaces with underscores to avoid issues
-    s = (yt.streams.filter(progressive=True, file_extension='mp4')
-         .order_by('resolution').desc().first()
-         )
-    video_path = s.download(output_path=save_path, filename=filename)
-    video_file = Path(video_path)
-
-    # Ensure the file has a .mp4 extension
-    if not video_file.suffix == '.mp4':
-        new_video_file = video_file.with_suffix('.mp4')
-        video_file.rename(new_video_file)
-        video_file = new_video_file
-
-    captions = yt.captions
-
-    return captions, video_file
-
-# TODO: fix below function
-
-def pytube_to_srt(yt, filename: str):
-    """Takes a pytube YouTube object and filename, tries to download English or auto-generated English captions."""
-    output_dir = Path("./whisper_output")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    logging.debug("Printing available captions START")
-    print(yt.captions)
-    logging.debug("Printing available captions END")
-
-    # Try to get manually created English captions first
-    caption = yt.captions.get_by_language_code('a.en')
-    # if not caption:
-    #     # If not available, try to get auto-generated English captions
-    #     logging.debug("No manually created English captions found, trying auto-generated captions.")
-    #     caption = yt.captions.get_by_language_code('a.en')
-
-    if not caption:
-        # If no English captions are available at all
-        logging.warning("No English captions (manual or auto-generated) found.")
-        return None, None
-
-    logging.debug("Captions found, generating SRT captions.")
-    srt_captions = caption.generate_srt_captions()
-    srt_file_path = output_dir / f"{filename.stem}.srt"
-
-    logging.debug(f"Writing SRT file to {srt_file_path}.")
-    with open(srt_file_path, 'w', encoding='utf-8') as f:
-        f.write(srt_captions)
-
-    return srt_captions, srt_file_path
-
-
-def pytube_to_txt(srt_captions: str) -> None:
-    """Converts SRT captions into plain text and writes them to a .txt file."""
-    # Directory setup
-    output_dir = Path("./caption_output")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    # Parse SRT captions to extract textual content
-    lines = srt_captions.split('\n')
-    plain_text_lines = []
-    for line in lines:
-        # Filter out numeric-only lines and timestamp lines
-        if not line.strip().isdigit() and '-->' not in line:
-            plain_text_lines.append(line.strip())
-
-    # Combine text lines into a single string with spaces
-    plain_text = ' '.join(plain_text_lines).replace('  ', ' ')
-
-    # Write the plain text to a file if there are captions
-    if plain_text_lines:
-        txt_file_path = output_dir / "captions.txt"
-        with open(txt_file_path, 'w', encoding='utf-8') as f:
-            f.write(plain_text)
-        logging.info(f"Captions written to {txt_file_path}")
+    # Step 3: Extract and return the video ID
+    match = re.search(pattern, yt_vid_url)
+    if match:
+        return match.group(1)
     else:
-        logging.warning("No captions available to write.")
+        return None
 
-def format_time(seconds):
-    td = str(timedelta(seconds=seconds))
-    parts = td.split(':')
-    hours, minutes = parts[0], parts[1]
-    if '.' in parts[2]:
-        seconds, milliseconds = parts[2].split('.')
-    else:
-        seconds, milliseconds = parts[2], '000'
-    milliseconds = milliseconds[:3].ljust(3, '0')  # Ensure milliseconds are exactly 3 digits
-    return "{:02}:{:02}:{:02},{:03}".format(int(hours), int(minutes), int(seconds), int(milliseconds))
+def yt_vid_id_to_srt(yt_video_id, srt_save_path):
+    transcript = YouTubeTranscriptApi.get_transcript(yt_video_id)
+
+    srt_content = []
+    for i, entry in enumerate(transcript):
+        start = entry['start']
+        duration = entry['duration']
+        text = entry['text']
+
+        start_hours, start_remainder = divmod(start, 3600)
+        start_minutes, start_seconds = divmod(start_remainder, 60)
+        start_milliseconds = int((start_seconds - int(start_seconds)) * 1000)
+
+        end = start + duration
+        end_hours, end_remainder = divmod(end, 3600)
+        end_minutes, end_seconds = divmod(end_remainder, 60)
+        end_milliseconds = int((end_seconds - int(end_seconds)) * 1000)
+
+        srt_content.append(f"{i + 1}")
+        srt_content.append(
+            f"{int(start_hours):02}:{int(start_minutes):02}:{int(start_seconds):02},{start_milliseconds:03} --> {int(end_hours):02}:{int(end_minutes):02}:{int(end_seconds):02},{end_milliseconds:03}")
+        srt_content.append(text)
+        srt_content.append('')
+
+    # Ensure the output directory exists
+    os.makedirs(srt_save_path, exist_ok=True)
+
+    with open(os.path.join(srt_save_path, 'subtitles.srt'), 'w', encoding='utf-8') as file:
+        file.write('\n'.join(srt_content))
 
 
-def main(url, save_path):
-    yt, video_file = get_video_from_youtube_url(url, save_path)
-    srt_captions, srt_file_path = pytube_to_srt(yt, video_file)
-    if srt_captions:
-        pytube_to_txt(srt_captions)
+def yt_vid_id_to_txt(yt_video_id, txt_save_path):
+    # Create the directory if it doesn't exist
+    os.makedirs(os.path.dirname(txt_save_path), exist_ok=True)
 
-    # yt, video_file = get_video_from_youtube_url(url, save_path)
-    # srt_captions, srt_file_path = pytube_to_srt(yt, video_file)
-    # if srt_captions:
-    #     pytube_to_txt(srt_captions)
+    # Fetch the transcript
+    transcript = YouTubeTranscriptApi.get_transcript(yt_video_id)
+
+    # Write the transcript to a .txt file as a single line
+    with open(os.path.join(txt_save_path, 'transcript.txt'), 'w', encoding='utf-8') as f:
+        full_transcript = ' '.join(entry['text'] for entry in transcript)
+        f.write(full_transcript)
 
 
-#  plain_text = pytube_to_txt(srt_captions)
+def main(yt_vid_url, mp4_dir_save_path, srt_dir_save_path, txt_dir_save_path):
+    # Setup logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+    yt_video_id = extract_video_id(yt_vid_url)
+    yt_vid_id_to_srt(yt_video_id, srt_dir_save_path)
+    yt_vid_id_to_txt(yt_video_id, txt_dir_save_path)
 
 if __name__ == "__main__":
-    url = input("Enter the YouTube URL: ")
-    save_path = "./input_files"
-    print(get_video_from_youtube_url(url, save_path))
+    yt_vid_url = input("Enter the YouTube URL: ")
+    yt_video_id = extract_video_id(yt_vid_url)
+    mp4_dir_save_path = "./input_files"
+    srt_dir_save_path = "./whisper_output"
+    txt_dir_save_path = "./whisper_output"
+    main(yt_vid_url, mp4_dir_save_path, srt_dir_save_path, txt_dir_save_path)

@@ -22,7 +22,6 @@ langchain-anthropic = "*"
 # whisper = "*"
 openai-whisper = {git = "https://github.com/openai/whisper.git"}
 torch = "*"
-pytube = {git = "https://github.com/pytube/pytube.git"}
 ffmpeg-python = "*"
 icecream = "*"
 crewai_tools = "*"
@@ -30,6 +29,7 @@ openai = "*"
 send2trash = "*"
 langchain_google_genai = "*"
 maskpass = "*"
+youtube-transcript-api = "*"
 
 [[tool.poetry.packages]]
 include = "*.py"

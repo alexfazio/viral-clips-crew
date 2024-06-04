@@ -10,7 +10,7 @@ import extracts
 import clipper
 import subtitler
 import logging
-from ytdl import get_video_from_youtube_url
+from ytdl import pytube_to_mp4
 
 # Load environment variables
 load_dotenv()
@@ -165,7 +165,7 @@ def main():
             logging.info("Submitting a YouTube Video Link")
             # Download video from YouTube
             url = input("Enter the YouTube URL: ")
-            get_video_from_youtube_url(url, input_folder)
+            pytube_to_mp4(url, input_folder)
             transcribe_flag = False
             break
         elif choice == '2':

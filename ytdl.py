@@ -14,8 +14,7 @@ def extract_video_id(yt_vid_url):
     else:
         return None
 
-def yt_vid_id_to_srt(yt_video_id, srt_save_path):
-    transcript = YouTubeTranscriptApi.get_transcript(yt_video_id)
+def yt_vid_id_to_srt(transcript, yt_video_id, srt_save_path):
 
     srt_content = []
     for i, entry in enumerate(transcript):
@@ -45,12 +44,9 @@ def yt_vid_id_to_srt(yt_video_id, srt_save_path):
         file.write('\n'.join(srt_content))
 
 
-def yt_vid_id_to_txt(yt_video_id, txt_save_path):
+def yt_vid_id_to_txt(transcript, yt_video_id, txt_save_path):
     # Create the directory if it doesn't exist
     os.makedirs(os.path.dirname(txt_save_path), exist_ok=True)
-
-    # Fetch the transcript
-    transcript = YouTubeTranscriptApi.get_transcript(yt_video_id)
 
     # Write the transcript to a .txt file as a single line
     with open(os.path.join(txt_save_path, 'transcript.txt'), 'w', encoding='utf-8') as f:
@@ -63,8 +59,10 @@ def main(yt_vid_url, mp4_dir_save_path, srt_dir_save_path, txt_dir_save_path):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     yt_video_id = extract_video_id(yt_vid_url)
-    yt_vid_id_to_srt(yt_video_id, srt_dir_save_path)
-    yt_vid_id_to_txt(yt_video_id, txt_dir_save_path)
+    transcript = YouTubeTranscriptApi.get_transcript(yt_video_id)
+
+    yt_vid_id_to_srt(transcript, yt_video_id, srt_dir_save_path)
+    yt_vid_id_to_txt(transcript,  yt_video_id, txt_dir_save_path)
 
 if __name__ == "__main__":
     yt_vid_url = input("Enter the YouTube URL: ")

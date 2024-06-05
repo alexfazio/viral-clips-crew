@@ -6,6 +6,7 @@ import logging
 
 # Related third party imports
 from dotenv import load_dotenv
+import lockfile
 
 # Local application/library specific imports
 import clipper
@@ -36,32 +37,20 @@ for var in required_vars:
         raise EnvironmentError(f"Required environment variable {var} is not set or is set to 'None'.")
 
 
-def wait_for_file(filepath, timeout=30):
+def wait_for_file(filepath):
     """
-    This function checks if a file is ready to be accessed. It does this by repeatedly checking if the file exists and
-    can be opened in append mode, until a specified timeout period has passed.
+    This function waits for a file to be available before proceeding.
 
     Args:
-    filepath (str): The path to the file to check.
-    timeout (int): The number of seconds to wait before giving up. Default is 30.
-
-    Returns:
-    bool: True if the file is ready, False otherwise.
+        filepath: Path to the file to wait for
     """
-    def file_ready(filename):
+    lock = lockfile.FileLock(filepath)
+    while not lock.i_am_locking():
         try:
-            with open(filename, 'ab'):
-                return True
-        except IOError:
-            logging.error(f"Error: File not ready: {filename}")
-            return False
-
-    start_time = time.time()
-    while time.time() - start_time < timeout:
-        if os.path.exists(filepath) and file_ready(filepath):
-            return True
-        time.sleep(1)
-    return False
+            lock.acquire(timeout=1)  # wait for 1 second
+        except lockfile.LockTimeout:
+            pass
+    return True
 
 
 def process_subtitles(input_video_path, subtitle_file, output_video_folder):

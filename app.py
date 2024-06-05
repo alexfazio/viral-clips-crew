@@ -1,15 +1,24 @@
-import warnings
-warnings.filterwarnings("ignore")
+# Standard library imports
 import os
 import time
+import warnings
+import logging
+
+# Related third party imports
 from dotenv import load_dotenv
-import transcribe
+
+# Local application/library specific imports
+import clipper
 import crew
 import extracts
-import clipper
 import subtitler
-import logging
+import transcribe
 from ytdl import get_video_from_youtube_url
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+warnings.filterwarnings("ignore")
 
 # Load environment variables
 load_dotenv()
@@ -17,31 +26,29 @@ load_dotenv()
 # List of required environment variables
 required_vars = ['OPENAI_API_KEY', 'GEMINI_API_KEY']
 
-# Check if each required environment variable is set and not 'None'
+"""
+This for loop checks if the required environment variables are set. 
+If any of the required environment variables are set to 'None', an EnvironmentError is raised.
+"""
 for var in required_vars:
     value = os.getenv(var)
     if value is None or value == 'None':
         raise EnvironmentError(f"Required environment variable {var} is not set or is set to 'None'.")
 
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
-def file_ready(filename):
-    """Check if the file is ready by attempting to append to it."""
-    try:
-        with open(filename, 'ab'):
-            return True
-    except IOError:
-        logging.error(f"Error: File not ready: {filename}")
-        return False
-
-
 def wait_for_file(filepath, timeout=30):
-    """Wait for a file to be created, exist, and be fully written and ready."""
+    """
+    This function checks if a file is ready to be accessed. It does this by repeatedly checking if the file exists and
+    can be opened in append mode, until a specified timeout period has passed.
+
+    Args:
+    filepath (str): The path to the file to check.
+    timeout (int): The number of seconds to wait before giving up. Default is 30.
+
+    Returns:
+    bool: True if the file is ready, False otherwise.
+    """
     def file_ready(filename):
-        """Check if the file is ready by attempting to append to it."""
         try:
             with open(filename, 'ab'):
                 return True
@@ -58,35 +65,45 @@ def wait_for_file(filepath, timeout=30):
 
 
 def process_subtitles(input_video_path, subtitle_file, output_video_folder):
-    """Process a single subtitle file to create a trimmed and subtitled video."""
-    # Step 1: Trim the video
+    """This function processes the subtitles and generates a subtitled video
+
+    Args:
+        input_video_path:
+        subtitle_file:
+        output_video_folder:
+    """
     trimmed_video_path = os.path.join(output_video_folder,
                                       f"{os.path.splitext(os.path.basename(subtitle_file))[0]}_trimmed.mp4")
     clipper.main(input_video_path, subtitle_file, output_video_folder)
 
-    # Wait for the trimmed video file to be created
     if not wait_for_file(trimmed_video_path, timeout=60):
         logging.error(f"Error: Trimmed video file not found: {trimmed_video_path}")
         return
 
-    # Step 2: Apply subtitles
     subtitled_video_path = os.path.join('subtitler_output',
                                         f"{os.path.splitext(os.path.basename(subtitle_file))[0]}_subtitled.mp4")
     subtitler.process_video_and_subtitles(trimmed_video_path, subtitle_file, 'subtitler_output')
 
-    # Wait for the subtitled video file to be created
     logging.info(f"Video processed and saved to {subtitled_video_path}")
 
 
 def process_videos(input_folder, output_video_folder, crew_output_folder, transcript=None, subtitles=None, transcribe_flag=True):
-    """Process each video file in the input folder."""
+    """Process each video file in the input folder
+
+    Args:
+        input_folder:
+        output_video_folder:
+        crew_output_folder:
+        transcript:
+        subtitles:
+        transcribe_flag:
+    """
     for filename in os.listdir(input_folder):
         if filename.endswith(".mp4"):
             input_video_path = os.path.join(input_folder, filename)
             logging.info(f"Processing video: {input_video_path}")
 
             if transcribe_flag:
-                # Transcription and subtitle generation
                 if transcript and subtitles:
                     initial_srt_path = os.path.join(crew_output_folder, f"{os.path.splitext(filename)[0]}_subtitles.srt")
                     with open(initial_srt_path, 'w') as srt_file:
@@ -100,11 +117,8 @@ def process_videos(input_folder, output_video_folder, crew_output_folder, transc
                 initial_srt_path = os.path.join(crew_output_folder, f"{os.path.splitext(filename)[0]}.srt")
 
             if wait_for_file(initial_srt_path):
-                # Call extracts.py and get the response
                 extracts_response = extracts.main()
                 logging.info("Extracts processed.")
-
-                # Read the generated .srt and .txt files
                 whisper_output_dir = 'whisper_output'
                 srt_files = [f for f in os.listdir(whisper_output_dir) if f.endswith('.srt')]
                 txt_files = [f for f in os.listdir(whisper_output_dir) if f.endswith('.txt')]
@@ -112,18 +126,12 @@ def process_videos(input_folder, output_video_folder, crew_output_folder, transc
                 if srt_files and txt_files:
                     subtitles_file = os.path.join(whisper_output_dir, srt_files[0])
                     transcript_file = os.path.join(whisper_output_dir, txt_files[0])
-
                     with open(transcript_file, 'r') as file:
                         transcript = file.read()
-
                     with open(subtitles_file, 'r') as file:
                         subtitles = file.read()
-
-                    # Pass the extracts response to crew.main
-                    crew.main(extracts_response, subtitles)  # Pass only the required arguments
+                    crew.main(extracts_response, subtitles)
                     logging.info("Processed with crew.")
-
-                    # Process each generated .srt file
                     for srt_filename in sorted(os.listdir(crew_output_folder)):
                         if srt_filename.startswith("new_file_return_subtitles") and srt_filename.endswith(".srt"):
                             subtitle_file_path = os.path.join(crew_output_folder, srt_filename)
@@ -142,11 +150,13 @@ def main():
 
     # User selection
     def user_prompt():
+        """Prompt the user to select an option to proceed"""
         logging.info("Please select an option to proceed:")
         logging.info("1: Submit a YouTube Video Link")
         logging.info("2: Use an existing video file")
 
     def user_choice():
+        """Get the user's choice"""
         choice = input("Please choose either option 1 or 2: ")
         return choice
 
@@ -172,7 +182,6 @@ def main():
             logging.info("Invalid choice. Please try again.")
 
     try:
-        # Ensure output directories exist
         os.makedirs(output_video_folder, exist_ok=True)
         os.makedirs(crew_output_folder, exist_ok=True)
         os.makedirs(whisper_output_folder, exist_ok=True)

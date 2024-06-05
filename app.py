@@ -1,6 +1,5 @@
 # Standard library imports
 import os
-import time
 import warnings
 import logging
 
@@ -14,7 +13,7 @@ import crew
 import extracts
 import subtitler
 import transcribe
-from ytdl import get_video_from_youtube_url
+from ytdl import main as ytdl_main
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -53,7 +52,7 @@ def wait_for_file(filepath):
     return True
 
 
-def process_subtitles(input_video_path, subtitle_file, output_video_folder):
+def clip_and_sub(input_video_path, subtitle_file, output_video_folder):
     """This function processes the subtitles and generates a subtitled video
 
     Args:
@@ -65,7 +64,7 @@ def process_subtitles(input_video_path, subtitle_file, output_video_folder):
                                       f"{os.path.splitext(os.path.basename(subtitle_file))[0]}_trimmed.mp4")
     clipper.main(input_video_path, subtitle_file, output_video_folder)
 
-    if not wait_for_file(trimmed_video_path, timeout=60):
+    if not wait_for_file(trimmed_video_path):
         logging.error(f"Error: Trimmed video file not found: {trimmed_video_path}")
         return
 
@@ -76,7 +75,7 @@ def process_subtitles(input_video_path, subtitle_file, output_video_folder):
     logging.info(f"Video processed and saved to {subtitled_video_path}")
 
 
-def process_videos(input_folder, output_video_folder, crew_output_folder, transcript=None, subtitles=None, transcribe_flag=True):
+def local_whisper_process(input_folder, output_video_folder, crew_output_folder, transcript=None, subtitles=None, transcribe_flag=True):
     """Process each video file in the input folder
 
     Args:
@@ -124,7 +123,7 @@ def process_videos(input_folder, output_video_folder, crew_output_folder, transc
                     for srt_filename in sorted(os.listdir(crew_output_folder)):
                         if srt_filename.startswith("new_file_return_subtitles") and srt_filename.endswith(".srt"):
                             subtitle_file_path = os.path.join(crew_output_folder, srt_filename)
-                            process_subtitles(input_video_path, subtitle_file_path, output_video_folder)
+                            clip_and_sub(input_video_path, subtitle_file_path, output_video_folder)
                 else:
                     logging.error("No .srt or .txt files found in the whisper_output directory.")
             else:
@@ -157,7 +156,7 @@ def main():
             logging.info("Submitting a YouTube Video Link")
             # Download video from YouTube
             url = input("Enter the YouTube URL: ")
-            get_video_from_youtube_url(url, input_folder)
+            ytdl_main(url, input_folder, whisper_output_folder, whisper_output_folder)
             transcribe_flag = False
             break
         elif choice == '2':
@@ -178,7 +177,7 @@ def main():
         logging.error(f"Error creating directories: {e}")
         return
 
-    process_videos(input_folder, output_video_folder, crew_output_folder, transcribe_flag=transcribe_flag)
+    local_whisper_process(input_folder, output_video_folder, crew_output_folder, transcribe_flag=transcribe_flag)
 
 
 if __name__ == "__main__":

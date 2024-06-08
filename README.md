@@ -4,7 +4,6 @@
   <img src="https://github.com/alexfazio/viral-clips-crew/assets/34505954/c69da629-06eb-4279-a5cb-0d8d7fc1dfee" width="600px" height="auto">
 </div>
 
-
 # Your [CrewAI](https://github.com/joaomdmoura/crewAI) Powered Video Editing Assistant
 
 Are you a social media content curator? Skip the tedious editing process and get polished video highlights in minutes. `viral-clips-crew` watches and listens to long-form content, extracting the most striking and potentially viral segments, ready for publication on social media.
@@ -19,7 +18,7 @@ This project requires:
 
 - Python 3.7+
 - CrewAI
-- OpenAI API key / Google Gemini API key
+- OpenAI API key and Google Gemini API key
 
 All required Python libraries are listed in `pyproject.toml`.
 
@@ -27,25 +26,23 @@ All required Python libraries are listed in `pyproject.toml`.
 
 1. Clone this repository to your local machine:
 
-```shell
-git clone https://github.com/alexfazio/viral-clips-crew.git
-```
+    ```shell
+    git clone https://github.com/alexfazio/viral-clips-crew.git
+    ```
 
 2. Install Poetry to automatically manage project dependencies:
 
-```shell
-pip install poetry
-```
+    ```shell
+    pip install poetry
+    ```
 
 3. Install the required Python packages using Poetry:
 
-```shell
-poetry install
-```
+    ```shell
+    poetry install
+    ```
 
-4. Open `.env` and insert your OpenAI API key.
-
-Here's the revised description:
+4. Open `.env` and insert your OpenAI API key and Google Gemini API key.
 
 ## Usage
 
@@ -55,9 +52,9 @@ After setting up, drag your desired clip into the `input_files` directory.
 
 Run `viral-clips-crew` using Poetry with the following command:
 
-```shell
-poetry run python app.py
-```
+    ```shell
+    poetry run python app.py
+    ```
 
 This will kickstart the process from beginning to completion.
 

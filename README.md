@@ -70,7 +70,7 @@ The code for `viral-clips-crew` is intended for demonstrative purposes and is no
 
 ## Credits
 
-Thanks to [Rip&Tear](https://x.com/Cyb3rCh1ck3n) for his support on the early prototype build.
+Thank you to [Rip&Tear](https://x.com/Cyb3rCh1ck3n) for his ongoing assistance in improving this tool.
 
 ## License
 

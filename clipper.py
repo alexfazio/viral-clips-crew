@@ -1,13 +1,22 @@
+# Standard library imports
 import os
+import warnings
 import re
-import ffmpeg
 from datetime import datetime
 import glob
 import logging
 
+# Third party imports
+import ffmpeg
+
+# Local application
+import subtitler
+from utils import wait_for_file
+
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+warnings.filterwarnings("ignore")
 
 def convert_timestamp(timestamp):
     return timestamp.replace(',', '.').strip()
@@ -25,6 +34,8 @@ def main(input_video, subtitle_file_path, output_folder):
 
     with open(subtitle_file_path, 'r') as file:
         subtitles_content = file.read()
+
+    assert subtitles_content != "", "clipper.py received an empty subtitles file"
 
     timestamps = re.findall(r'\d{2}:\d{2}:\d{2},\d{3}', subtitles_content)
     if not timestamps:

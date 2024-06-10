@@ -2,18 +2,16 @@
 import os
 import warnings
 import logging
+from pathlib import Path
 
 # Third party imports
 from dotenv import load_dotenv
-import lockfile
 
 # Local application imports
 import clipper
-import extracts
 import subtitler
-import transcribe
 from ytdl import main as ytdl_main
-from local_whisper import local_whisper_process
+from local_transcribe import local_whisper_process
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -35,6 +33,10 @@ for var in required_vars:
     if value is None or value == 'None':
         raise EnvironmentError(f"Required environment variable {var} is not set or is set to 'None'.")
 
+
+# def clip(input_video_path, subtitle_file, output_video_folder):
+
+# def sub(subtitle_file):
 
 def main():
     input_folder = './input_files'
@@ -83,7 +85,36 @@ def main():
         logging.error(f"Error creating directories: {e}")
         return
 
+    # converting paths to Path paths for glob
+
+    input_folder_path = Path(input_folder)
+    whisper_output_folder_path = Path(whisper_output_folder)
+    output_video_folder_path = Path(output_video_folder)
+
+    # local_whisper.py
+
     local_whisper_process(input_folder, output_video_folder, crew_output_folder, transcribe_flag=transcribe_flag)
+
+    # clipper.py
+
+    for video_file in input_folder_path.glob('*.mp4'):
+        for srt_file in whisper_output_folder_path.glob('*.srt'):
+            # Process each video and subtitle pair
+            clipper.main(video_file, srt_file, output_video_folder_path)
+            print(f"Processed {video_file}")
+
+    # subtitler.py
+
+    # output_video_folder in this case is clipper_output
+    for video_file in output_video_folder_path.glob('*.mp4'):
+        for srt_file in whisper_output_folder_path.glob('*.srt'):
+            trimmed_video_path = os.path.join(output_video_folder_path,
+                                              f"{os.path.splitext(os.path.basename(srt_file))[0]}_trimmed.mp4")
+            subtitler.process_video_and_subtitles(trimmed_video_path, srt_file, 'subtitler_output')
+            subtitled_video_path = os.path.join('subtitler_output',
+                                                f"{os.path.splitext(os.path.basename(srt_file))[0]}_subtitled.mp4")
+
+    logging.info(f"Video processed and saved to {subtitled_video_path}")
 
 
 if __name__ == "__main__":

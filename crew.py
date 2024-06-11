@@ -1,17 +1,20 @@
+# Standard library imports
+import datetime
+from datetime import datetime
 import logging
-
-from crewai import Agent, Task, Crew, Process
+import os
+import sys
 from textwrap import dedent
+
+# Third party imports
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
 # from langchain_community.chat_models import ChatOpenAI
 # ↑ uncomment to use OpenAI API
-from langchain_google_genai import ChatGoogleGenerativeAI
-import datetime
-from dotenv import load_dotenv
-from datetime import datetime
-import sys
-import os
+
+# Local application imports
+from crewai import Agent, Task, Crew, Process
 import extracts  # Ensure this module is available and correctly imported
-import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

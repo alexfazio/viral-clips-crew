@@ -9,9 +9,8 @@ import logging
 # Third party imports
 import ffmpeg
 
-# Local application
-import subtitler
-from utils import wait_for_file
+# Local application imports
+# ...
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

@@ -1,13 +1,16 @@
-import torch
-from pathlib import Path
-import whisper
-from whisper.utils import get_writer
-from utils import wait_for_file
-
 # Standard library imports
+from pathlib import Path
 import os
 import warnings
 import logging
+
+# Third party imports
+import torch
+import whisper
+from whisper.utils import get_writer
+
+# Local application imports
+from utils import wait_for_file
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

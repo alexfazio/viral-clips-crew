@@ -1,10 +1,15 @@
+# Standard library imports
 import sys
 import json
 import os
-from openai import OpenAI
 from textwrap import dedent
-from dotenv import load_dotenv
 import logging
+
+# Third party imports
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Local application imports
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

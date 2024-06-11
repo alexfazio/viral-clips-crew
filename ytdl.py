@@ -1,9 +1,14 @@
+# Standard library imports
 import logging
 import os
 import re
+from pathlib import Path
+
+# Third party imports
 from youtube_transcript_api import YouTubeTranscriptApi
 from pytube import YouTube
-from pathlib import Path
+
+# Local application imports
 
 def extract_video_id(yt_vid_url):
     # Step 2: Create a regex pattern to match YouTube video IDs

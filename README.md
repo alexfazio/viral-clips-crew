@@ -42,7 +42,13 @@ All required Python libraries are listed in `pyproject.toml`.
     poetry install
     ```
 
-4. Open `.env` and insert your OpenAI API key and Google Gemini API key.
+4. Update Pydantic:
+
+    ```shell
+    poetry update pydantic
+    ```
+
+5. Open `.env` and insert your OpenAI API key and Google Gemini API key.
 
 ## Usage
 

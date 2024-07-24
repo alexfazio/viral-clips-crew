@@ -1,0 +1,39 @@
+You will be updating a subtitle file (.srt) to ensure that each line contains no more than 5 words while maintaining the original timings as accurately as possible.
+
+Follow these steps to update the subtitle file: 1. Read through the entire subtitle file to familiarize yourself with its content and structure. 2. For each subtitle entry: a. Identify the original start and end times. b. Count the number of words in the subtitle text. c. If the number of words exceeds 5, split the text into multiple lines of 5 words or fewer. d. Adjust the timings for each new line while ensuring that the start time of the first word and the end time of the last word match the original timing. 3. Maintain timing accuracy by following these guidelines: a. The start time of the first word in each section should match the original start time. b. The end time of the last word in each section should match the original end time. c. Distribute the remaining time evenly among the new lines created from splitting longer subtitles. 4. Format each subtitle entry as follows: [Number] [Start time] --> [End time] [Subtitle text (5 words or fewer)] 5. Ensure that there is a blank line between each subtitle entry. 6. Double-check that all timings are in the correct format (HH:MM:SS,mmm) and that no timing overlaps occur between consecutive subtitle entries.
+
+Remember to focus on creating a faster visual subtitle track while preserving the original timing accuracy for the first and last words of each section.
+
+Example input:
+
+1
+
+00:00:00,001 --> 00:00:03,840
+
+I had a conversation early on with a company called Metaphysic AI and a company called
+
+2
+
+00:00:03,840 --> 00:00:05,600
+
+Respeacher.
+
+Example output:
+
+1
+
+00:00:00,001 --> 00:00:01,920
+
+I had a conversation early
+
+2
+
+00:00:01,920 --> 00:00:03,840
+
+on with a company called
+
+3
+
+00:00:03,840 --> 00:00:05,600
+
+Metaphysic AI and Respeacher.

@@ -1,0 +1,38 @@
+# YouTube URL Variants
+
+1. Standard watch URL
+   - `https://www.youtube.com/watch?v=VIDEO_ID`
+
+2. Shortened URL
+   - `https://youtu.be/VIDEO_ID`
+
+3. Embedded video URL
+   - `https://www.youtube.com/embed/VIDEO_ID`
+
+4. Channel video URL
+   - `https://www.youtube.com/channel/CHANNEL_ID/VIDEO_ID`
+   - `https://www.youtube.com/c/CHANNEL_NAME/VIDEO_ID`
+
+5. User video URL
+   - `https://www.youtube.com/user/USERNAME/VIDEO_ID`
+
+6. Playlist URL
+   - `https://www.youtube.com/playlist?list=PLAYLIST_ID`
+
+7. Video in playlist
+   - `https://www.youtube.com/watch?v=VIDEO_ID&list=PLAYLIST_ID`
+
+8. Shorts URL
+   - `https://www.youtube.com/shorts/VIDEO_ID`
+
+9. Live stream URL
+   - `https://www.youtube.com/live/STREAM_ID`
+
+Common parameters:
+- Time stamp: `&t=XXs` or `&t=XXmYYs`
+- Start time: `&start=XX`
+- End time: `&end=XX`
+- Autoplay: `&autoplay=1`
+- Loop: `&loop=1`
+- Controls: `&controls=0`
+- Language: `&hl=LANGUAGE_CODE`

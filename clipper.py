@@ -25,7 +25,15 @@ def parse_timestamp(timestamp):
     return datetime.strptime(timestamp, '%H:%M:%S.%f')
 
 
-def main(input_video, subtitle_file_path, output_folder):
+def get_aspect_ratio_choice():
+    while True:
+        choice = input("Choose aspect ratio for all videos: (1) Keep as original, (2) 1:1 (square): ")
+        if choice in ['1', '2']:
+            return choice
+        print("Invalid choice. Please enter 1 or 2.")
+
+
+def main(input_video, subtitle_file_path, output_folder, aspect_ratio_choice):
     logging.info('~~~CLIPPER: STARTED~~~')
 
     if not os.path.exists(output_folder):
@@ -44,13 +52,33 @@ def main(input_video, subtitle_file_path, output_folder):
     start_time = convert_timestamp(timestamps[0])
     end_time = convert_timestamp(timestamps[-1])
 
+    # Log the extracted start and end times
+    logging.info(f"Extracted Start Time: {start_time}")
+    logging.info(f"Extracted End Time: {end_time}")
+
+    # Calculate duration
+    start_datetime = parse_timestamp(start_time)
+    end_datetime = parse_timestamp(end_time)
+    duration = end_datetime - start_datetime
+    duration_seconds = duration.total_seconds()
+
+    # Log the calculated duration
+    logging.info(f"Calculated Duration: {duration_seconds:.2f} seconds")
+
+    # Check if duration is 0 seconds or exceeds 2 minutes and 30 seconds
+    if duration_seconds <= 0:
+        logging.warning("Video fragment duration is 0 seconds. Skipping this subtitle file.")
+        return
+    if duration_seconds > 150:  # 150 seconds = 2 minutes 30 seconds
+        logging.warning(f"Video fragment duration ({duration_seconds:.2f} seconds) exceeds 2 minutes 30 seconds. Skipping this subtitle file.")
+        return
+
     # Construct the output video path using the subtitle file name as a prefix
     subtitle_base_name = os.path.splitext(os.path.basename(subtitle_file_path))[0]
     output_video_path = os.path.join(output_folder, f"{subtitle_base_name}_trimmed.mp4")
 
     logging.info(f"Output path: {output_video_path}")
 
-    # Use ffmpeg to trim and crop the video to 1:1 aspect ratio
     try:
         # Get video dimensions
         probe = ffmpeg.probe(input_video)
@@ -58,29 +86,41 @@ def main(input_video, subtitle_file_path, output_folder):
         width = int(video_stream['width'])
         height = int(video_stream['height'])
 
-        # Calculate crop dimensions for 1:1 aspect ratio
-        if width > height:
-            crop_size = height
-            x_offset = (width - crop_size) // 2
-            y_offset = 0
-        else:
-            crop_size = width
-            x_offset = 0
-            y_offset = (height - crop_size) // 2
+        # Log video dimensions
+        logging.info(f"Video Width: {width}, Video Height: {height}")
 
-        # Re-encode the video to ensure frame accuracy and avoid sync issues
-        (
-            ffmpeg
-            .input(input_video, ss=start_time, to=end_time)
-            .filter('crop', crop_size, crop_size, x_offset, y_offset)
-            .output(output_video_path, vcodec='libx264', acodec='aac', audio_bitrate='192k', vsync='vfr', map='0:a')
-            .run()
-        )
+        # Initialize ffmpeg input
+        input_stream = ffmpeg.input(input_video, ss=start_time, t=duration_seconds)
+
+        if aspect_ratio_choice == '2':  # 1:1 (square)
+            # Calculate crop dimensions for 1:1 aspect ratio
+            if width > height:
+                crop_size = height
+                x_offset = (width - crop_size) // 2
+                y_offset = 0
+            else:
+                crop_size = width
+                x_offset = 0
+                y_offset = (height - crop_size) // 2
+            
+            # Apply crop filter
+            video = input_stream.video.filter('crop', crop_size, crop_size, x_offset, y_offset)
+        else:
+            video = input_stream.video
+
+        audio = input_stream.audio
+
+        # Re-encode the video
+        output = ffmpeg.output(video, audio, output_video_path, 
+                               vcodec='libx264', acodec='aac', 
+                               audio_bitrate='192k', 
+                               **{'vsync': 'vfr'})
+        
+        ffmpeg.run(output, overwrite_output=True)
+        logging.info(f"Trimmed video saved to {output_video_path}")
 
     except ffmpeg.Error as e:
-        logging.error(f"ffmpeg error: {e}")
-
-    logging.info(f"Trimmed video saved to {output_video_path}")
+        logging.error(f"ffmpeg error: {str(e)}")
 
 
 if __name__ == "__main__":
@@ -91,6 +131,9 @@ if __name__ == "__main__":
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
+    # Ask for aspect ratio choice once
+    aspect_ratio_choice = get_aspect_ratio_choice()
+
     for video_file_path in video_files:
         for subtitle_file in subtitle_files:
-            main(video_file_path, subtitle_file, output_folder)
+            main(video_file_path, subtitle_file, output_folder, aspect_ratio_choice)

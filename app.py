@@ -10,8 +10,10 @@ from dotenv import load_dotenv
 # Local application imports
 import clipper
 import subtitler
+import crew
 from ytdl import main as ytdl_main
 from local_transcribe import local_whisper_process
+import extracts
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -33,91 +35,69 @@ for var in required_vars:
     if value is None or value == 'None':
         raise EnvironmentError(f"Required environment variable {var} is not set or is set to 'None'.")
 
-
-# def clip(input_video_path, subtitle_file, output_video_folder):
-
-# def sub(subtitle_file):
-
 def main():
     input_folder = './input_files'
     output_video_folder = './clipper_output'
     crew_output_folder = './crew_output'
     whisper_output_folder = './whisper_output'
+    subtitler_output_folder = './subtitler_output'
+
+    # Ensure all necessary directories exist
+    for folder in [input_folder, output_video_folder, crew_output_folder, whisper_output_folder, subtitler_output_folder]:
+        os.makedirs(folder, exist_ok=True)
 
     # User selection
-    def user_prompt():
-        """Prompt the user to select an option to proceed"""
+    while True:
         logging.info("Please select an option to proceed:")
         logging.info("1: Submit a YouTube Video Link")
         logging.info("2: Use an existing video file")
-
-    def user_choice():
-        """Get the user's choice"""
         choice = input("Please choose either option 1 or 2: ")
-        return choice
-
-    while True:
-        user_prompt()  # Display the prompt before asking for the choice
-        choice = user_choice()
 
         if choice == '1':
             logging.info("Submitting a YouTube Video Link")
-            # Download video from YouTube
             url = input("Enter the YouTube URL: ")
             ytdl_main(url, input_folder, whisper_output_folder, whisper_output_folder)
-            transcribe_flag = False
             break
         elif choice == '2':
             logging.info("Using an existing video file")
             if not os.listdir(input_folder):
                 logging.error(f"No video files found in the folder: {input_folder}")
                 continue
-            transcribe_flag = True
+            local_whisper_process(input_folder, whisper_output_folder)
             break
         else:
             logging.info("Invalid choice. Please try again.")
 
-    try:
-        os.makedirs(output_video_folder, exist_ok=True)
-        os.makedirs(crew_output_folder, exist_ok=True)
-        os.makedirs(whisper_output_folder, exist_ok=True)
-    except Exception as e:
-        logging.error(f"Error creating directories: {e}")
+    # After processing with ytdl or local_whisper_process
+    extracts_data = extracts.main()
+    if extracts_data is None:
+        logging.error("Failed to generate extracts. Exiting.")
         return
 
-    # converting paths to Path paths for glob
+    # Process with crew.py
+    crew.main(extracts_data)
 
+    # Process with clipper.py
     input_folder_path = Path(input_folder)
-    whisper_output_folder_path = Path(whisper_output_folder)
+    crew_output_folder_path = Path(crew_output_folder)
     output_video_folder_path = Path(output_video_folder)
 
-    # local_whisper.py
-
-    local_whisper_process(input_folder, output_video_folder, crew_output_folder, transcribe_flag=transcribe_flag)
-
-    # clipper.py
-
     for video_file in input_folder_path.glob('*.mp4'):
-        for srt_file in whisper_output_folder_path.glob('*.srt'):
-            # Process each video and subtitle pair
-            clipper.main(video_file, srt_file, output_video_folder_path)
-            print(f"Processed {video_file}")
+        for srt_file in crew_output_folder_path.glob('*.srt'):
+            clipper.main(str(video_file), str(srt_file), str(output_video_folder_path))
+            logging.info(f"Processed {video_file} with {srt_file}")
 
-    # subtitler.py
+    # Process with subtitler.py
+    for video_file in output_video_folder_path.glob('*_trimmed.mp4'):
+        base_name = video_file.stem.replace('_trimmed', '')
+        srt_file = crew_output_folder_path / f"{base_name}.srt"
+        if srt_file.exists():
+            subtitler.process_video_and_subtitles(str(video_file), str(srt_file), subtitler_output_folder)
+            logging.info(f"Added subtitles to {video_file}")
+        else:
+            logging.warning(f"No matching subtitle file found for {video_file}")
 
-    # output_video_folder in this case is clipper_output
-    for video_file in output_video_folder_path.glob('*.mp4'):
-        for srt_file in whisper_output_folder_path.glob('*.srt'):
-            trimmed_video_path = os.path.join(output_video_folder_path,
-                                              f"{os.path.splitext(os.path.basename(srt_file))[0]}_trimmed.mp4")
-            subtitler.process_video_and_subtitles(trimmed_video_path, srt_file, 'subtitler_output')
-            subtitled_video_path = os.path.join('subtitler_output',
-                                                f"{os.path.splitext(os.path.basename(srt_file))[0]}_subtitled.mp4")
-
-    logging.info(f"Video processed and saved to {subtitled_video_path}")
-
+    logging.info(f"All videos processed. Final output saved in {subtitler_output_folder}")
 
 if __name__ == "__main__":
     main()
-    # ytdl_main(youtube_url, mp4_save_path, srt_save_path, txt_save_path)
-    # local_whisper_process(input_folder, crew_output_folder)

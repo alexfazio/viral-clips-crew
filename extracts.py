@@ -1,10 +1,16 @@
+# Standard library imports
 import sys
 import json
 import os
-from openai import OpenAI
 from textwrap import dedent
-from dotenv import load_dotenv
 import logging
+from pathlib import Path
+
+# Third party imports
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Local application imports
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -16,31 +22,29 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-def call_openai_api():
-    logging.info("STARTING call_openai_api")
-
-    # Check if the whisper_output directory exists and contains .srt and .txt files
-    whisper_output_dir = 'whisper_output'
-    if os.path.exists(whisper_output_dir):
-        srt_files = [f for f in os.listdir(whisper_output_dir) if f.endswith('.srt')]
-        txt_files = [f for f in os.listdir(whisper_output_dir) if f.endswith('.txt')]
-
-        if srt_files and txt_files:
-            # Assuming the first .srt and .txt files are the ones to process
-            subtitles_file = os.path.join(whisper_output_dir, srt_files[0])
-            transcript_file = os.path.join(whisper_output_dir, txt_files[0])
-
-            with open(transcript_file, 'r') as file:
-                transcript = file.read()
-
-            with open(subtitles_file, 'r') as file:
-                subtitles = file.read()
-        else:
-            logging.warning("No .srt or .txt files found in the whisper_output directory.")
-            return []
-    else:
+def get_whisper_output():
+    whisper_output_dir = Path('whisper_output')
+    if not whisper_output_dir.exists():
         logging.error(f"Directory not found: {whisper_output_dir}")
-        sys.exit(1)
+        return None, None
+
+    srt_files = list(whisper_output_dir.glob('*.srt'))
+    txt_files = list(whisper_output_dir.glob('*.txt'))
+
+    if not srt_files or not txt_files:
+        logging.warning("No .srt or .txt files found in the whisper_output directory.")
+        return None, None
+
+    with open(txt_files[0], 'r') as file:
+        transcript = file.read()
+
+    with open(srt_files[0], 'r') as file:
+        subtitles = file.read()
+
+    return transcript, subtitles
+
+def call_openai_api(transcript):
+    logging.info("STARTING call_openai_api")
 
     prompt = dedent(f"""
         Here is the full transcript from the video:
@@ -81,16 +85,10 @@ def call_openai_api():
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful assistant."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
             ],
             temperature=0.8,
             max_tokens=4095,
@@ -99,20 +97,16 @@ def call_openai_api():
             presence_penalty=0
         )
 
-        # Extract and return the text from the response
         response_data = json.loads(response.choices[0].message.content)
         clip_texts = [clip['text'] for clip in response_data['clips']]
 
         logging.info("[START] extracts.py RESPONSE")
-        print("```")
         print(json.dumps(response_data, indent=4))
-        print("```")
         logging.info("[END] extracts.py RESPONSE")
         return clip_texts
     except Exception as e:
-        print(f"Error calling OpenAI API: {e}")
+        logging.error(f"Error calling OpenAI API: {e}")
         return []
-
 
 def save_response_to_file(response, output_path):
     try:
@@ -123,26 +117,23 @@ def save_response_to_file(response, output_path):
             json.dump(response_content, f, indent=4)
 
         logging.info(f"Response saved to {output_path}")
-        print(f"Response saved to {output_path}")
     except Exception as e:
-        print(f"Error saving response to file: {e}")
-
+        logging.error(f"Error saving response to file: {e}")
 
 def main():
     logging.info('STARTING extracts.py')
 
-    response = call_openai_api()
+    transcript, subtitles = get_whisper_output()
+    if transcript is None or subtitles is None:
+        return None
+
+    response = call_openai_api(transcript)
     if response:
-        # Use the relative directory
-        output_dir = 'crew_output'
-        output_path = os.path.join(output_dir, 'api_response.json')
-        
-        # Ensure the output directory exists
-        os.makedirs(output_dir, exist_ok=True)
-        
+        output_dir = Path('crew_output')
+        output_dir.mkdir(exist_ok=True)
+        output_path = output_dir / 'api_response.json'
         save_response_to_file(response, output_path)
     return response
-
 
 if __name__ == "__main__":
     main()

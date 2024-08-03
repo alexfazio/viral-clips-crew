@@ -9,8 +9,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/poetry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/poetry.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clip_sub.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/clipper.py" beforeDir="false" afterPath="$PROJECT_DIR$/clipper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crew.py" beforeDir="false" afterPath="$PROJECT_DIR$/crew.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/extracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/extracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local_transcribe.py" beforeDir="false" afterPath="$PROJECT_DIR$/local_transcribe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ytdl.py" beforeDir="false" afterPath="$PROJECT_DIR$/ytdl.py" afterDir="false" />
     </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
@@ -44,7 +47,7 @@
     &quot;Python.ytdl.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-04-06-2024_05-00-23/input_files&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/alex/PycharmProjects/github-repos/viral-clips-crew/vcc-dev-10-06-2024_04-03-16/input_files&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -85,6 +88,7 @@
       <workItem from="1717331948244" duration="860000" />
       <workItem from="1717513228476" duration="2962000" />
       <workItem from="1717591146382" duration="5633000" />
+      <workItem from="1718028200438" duration="10291000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />

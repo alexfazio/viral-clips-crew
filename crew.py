@@ -1,34 +1,56 @@
-import logging
-
-from crewai import Agent, Task, Crew, Process
-from textwrap import dedent
-# from langchain_community.chat_models import ChatOpenAI
-# ↑ uncomment to use OpenAI API
-from langchain_google_genai import ChatGoogleGenerativeAI
-import datetime
-from dotenv import load_dotenv
-from datetime import datetime
-import sys
+# Standard library imports
 import os
-import extracts  # Ensure this module is available and correctly imported
+import sys
 import logging
+from pathlib import Path
+from textwrap import dedent
+from datetime import datetime
 
+# Third party imports
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+from crewai import Agent, Task, Crew, Process
+
+# Local application imports
+import extracts  # Ensure this module is available and correctly imported
+
+# Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Use maskpass to prompt for the password and mask it with '*'
-# gemini_api_key = maskpass.askpass(prompt="Enter GEMINI_API_KEY: ", mask="*")
-#os.environ["GEMINI_API_KEY"] = gemini_api_key
+# Load environment variables
+load_dotenv()
 
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 
-# Add API keys within `./.env` file
-load_dotenv()
+# Ensure the Path is correctly imported
+if 'Path' not in globals():
+    from pathlib import Path
 
+def get_subtitles():
+    whisper_output_dir = Path('whisper_output')
+    if not whisper_output_dir.exists():
+        logging.error(f"Directory not found: {whisper_output_dir}")
+        return None
 
-def main(extracts, subtitles):
+    srt_files = list(whisper_output_dir.glob('*.srt'))
+    if not srt_files:
+        logging.warning("No .srt files found in the whisper_output directory.")
+        return None
 
+    with open(srt_files[0], 'r') as file:
+        subtitles = file.read()
+
+    return subtitles
+
+def main(extracts):
     # Create the crew_output directory if it doesn't exist
     os.makedirs("crew_output", exist_ok=True)
+
+    # Read subtitles
+    subtitles = get_subtitles()
+    if subtitles is None:
+        logging.error("Failed to read subtitles. Exiting.")
+        return
 
     subtitler_agent_1 = Agent(
         role=dedent((
@@ -51,11 +73,7 @@ def main(extracts, subtitles):
                                    verbose=True,
                                    temperature=0.5,
                                    google_api_key=gemini_api_key)
-        # llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
-        # ↑ uncomment to use OpenAI API + "gpt-4"
-        # llm=ChatAnthropic(model='claude-3-opus-20240229', temperature=0.5),
-        # ↑ uncomment to use Anthropic's API + "claude-3-opus-20240229"
-        )
+    )
 
     subtitler_agent_2 = Agent(
         role=dedent((
@@ -78,11 +96,7 @@ def main(extracts, subtitles):
                                    verbose=True,
                                    temperature=0.5,
                                    google_api_key=gemini_api_key)
-        # llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
-        # ↑ uncomment to use OpenAI API + "gpt-4"
-        # llm=ChatAnthropic(model='claude-3-opus-20240229', temperature=0.5),
-        # ↑ uncomment to use Anthropic's API + "claude-3-opus-20240229"
-        )
+    )
 
     subtitler_agent_3 = Agent(
         role=dedent((
@@ -105,10 +119,6 @@ def main(extracts, subtitles):
                                    verbose=True,
                                    temperature=0.5,
                                    google_api_key=gemini_api_key)
-        # llm=ChatOpenAI(model_name="gpt-4", temperature=0.5)
-        # ↑ uncomment to use OpenAI API + "gpt-4"
-        # llm=ChatAnthropic(model='claude-3-opus-20240229', temperature=0.5),
-        # ↑ uncomment to use Anthropic's API + "claude-3-opus-20240229"
     )
 
     return_subtitles_1 = Task(
@@ -319,20 +329,14 @@ def main(extracts, subtitles):
             - No comments like: "Here is the output with the matched segments in the requested format:"
             """)),
         agent=subtitler_agent_3,
-        # ↑ specify which task's output should be used as context for subsequent tasks
         output_file=f'crew_output/new_file_return_subtitles_3_{datetime.now().strftime("%Y%m%d_%H%M%S_%f")}.srt'
     )
-
-    # TODO: ↓ set `verbose` to false after debug
 
     crew = Crew(
         agents=[subtitler_agent_1, subtitler_agent_2, subtitler_agent_3],
         tasks=[return_subtitles_1, return_subtitles_2, return_subtitles_3],
-        verbose=2,  # You can set it to 1 or 2 to different logging levels
-        # ↑ indicates the verbosity level for logging during execution.
+        verbose=2,
         process=Process.sequential,
-        # ↑ the process flow that the crew will follow (e.g., sequential, hierarchical).
-        # manager_agent=manager,
     )
 
     result = crew.kickoff()
@@ -343,35 +347,9 @@ def main(extracts, subtitles):
 
     return result
 
-
 if __name__ == "__main__":
-
-    # Check if the whisper_output directory exists and contains .srt and .txt files
-    whisper_output_dir = 'whisper_output'
-    
-    if os.path.exists(whisper_output_dir):
-        srt_files = [f for f in os.listdir(whisper_output_dir) if f.endswith('.srt')]
-        txt_files = [f for f in os.listdir(whisper_output_dir) if f.endswith('.txt')]
-
-        if srt_files and txt_files:
-            # Assuming the first .srt and .txt files are the ones to process
-            subtitles_file = os.path.join(whisper_output_dir, srt_files[0])
-            transcript_file = os.path.join(whisper_output_dir, txt_files[0])
-
-            with open(transcript_file, 'r') as file:
-                transcript = file.read()
-
-            with open(subtitles_file, 'r') as file:
-                subtitles = file.read()
-
-            # Ensure extracts.main() returns the expected data and waits for it to finish
-            extracts_data = extracts.main()
-            while extracts_data is None:
-                extracts_data = extracts.main()
-
-            main(extracts_data, subtitles)
-        else:
-            logging.warning("No .srt or .txt files found in the whisper_output directory.")
+    extracts_data = extracts.main()
+    if extracts_data:
+        main(extracts_data)
     else:
-        logging.info(f"Directory not found: {whisper_output_dir}")
-        sys.exit(1)
+        logging.error("Failed to generate extracts. Exiting.")

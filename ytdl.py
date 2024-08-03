@@ -1,15 +1,20 @@
+# Standard library imports
 import logging
 import os
 import re
-from youtube_transcript_api import YouTubeTranscriptApi
-from pytube import YouTube
 from pathlib import Path
 
-def extract_video_id(yt_vid_url):
-    # Step 2: Create a regex pattern to match YouTube video IDs
-    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})'
+# Third party imports
+from youtube_transcript_api import YouTubeTranscriptApi
+import yt_dlp
 
-    # Step 3: Extract and return the video ID
+# Local application imports
+
+def extract_video_id(yt_vid_url):
+    # Updated regex pattern to match various YouTube URL formats
+    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})(?:\S+)?'
+
+    # Extract and return the video ID
     match = re.search(pattern, yt_vid_url)
     if match:
         return match.group(1)
@@ -17,28 +22,29 @@ def extract_video_id(yt_vid_url):
         return None
 
 def yt_vid_url_to_mp4(yt_vid_url, mp4_dir_save_path):
-
     # Create the directory if it doesn't exist
-    os.makedirs(os.path.dirname(mp4_dir_save_path), exist_ok=True)
+    os.makedirs(mp4_dir_save_path, exist_ok=True)
 
-    yt = YouTube(yt_vid_url)
-    save_path = Path(mp4_dir_save_path) if mp4_dir_save_path else Path(".")
-    filename = yt.title.replace(" ", "_")  # Replace spaces with underscores to avoid issues
-    # Replace or remove characters that are not valid in file names
-    invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
-    for char in invalid_chars:
-        filename = filename.replace(char, '')
-    s = (yt.streams.filter(progressive=True, file_extension='mp4')
-         .order_by('resolution').desc().first()
-         )
-    video_path = s.download(output_path=mp4_dir_save_path, filename=filename)
-    video_file = Path(video_path)
+    ydl_opts = {
+        'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+        'outtmpl': os.path.join(mp4_dir_save_path, '%(title)s.%(ext)s'),
+        'restrictfilenames': True,
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(yt_vid_url, download=False)
+        filename = ydl.prepare_filename(info)
+        ydl.download([yt_vid_url])
+
+    video_file = Path(filename)
 
     # Ensure the file has a .mp4 extension
     if not video_file.suffix == '.mp4':
         new_video_file = video_file.with_suffix('.mp4')
         video_file.rename(new_video_file)
         video_file = new_video_file
+
+    return str(video_file)
 
 def yt_vid_id_to_srt(transcript, yt_video_id, srt_save_path):
 

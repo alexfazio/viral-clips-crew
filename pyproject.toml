@@ -32,6 +32,7 @@ langchain_google_genai = "*"
 maskpass = "*"
 youtube-transcript-api = "*"
 lockfile = "*"
+yt-dlp = "^2024.8.1"
 
 [[tool.poetry.packages]]
 include = "*.py"

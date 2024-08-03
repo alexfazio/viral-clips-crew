@@ -1,9 +1,14 @@
+# Standard library imports
 import os
 import glob
 import subprocess
 import re
 import datetime
 import logging
+
+# Third party imports
+
+# Local application imports
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

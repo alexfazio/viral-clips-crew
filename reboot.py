@@ -52,13 +52,16 @@ def main():
     # Task 1: Move all files and the directory clipper_output to trash
     move_files_to_trash(clipper_output_dir)
 
-    # Task 2: Move all files and the directory whisper_output to trash
+    # Task 2: Move all .mp4 files in clipper_output to trash
+    move_files_to_trash(clipper_output_dir, file_extension='.mp4')
+
+    # Task 3: Move all files and the directory whisper_output to trash
     move_files_to_trash(whisper_output_dir)
 
-    # Task 3: Move all files in crew_output to trash, excluding api_response.json, but do not move the directory itself
+    # Task 4: Move all files in crew_output to trash, excluding api_response.json, but do not move the directory itself
     move_files_to_trash(crew_output_dir, exclude_files=[api_response_file])
 
-    # Task 4: Move all mp4 files in input_files to trash, excluding PLACE_CLIPS_HERE
+    # Task 5: Move all mp4 files in input_files to trash, excluding PLACE_CLIPS_HERE
     move_files_to_trash(input_files_dir, exclude_files=['PLACE_CLIPS_HERE'], file_extension='.mp4')
 
     # Clear the contents of api_response.json

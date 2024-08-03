@@ -47,6 +47,7 @@ def main():
     whisper_output_dir = 'whisper_output'
     crew_output_dir = 'crew_output'
     input_files_dir = 'input_files'
+    subtitler_output_dir = 'subtitler_output'
     api_response_file = 'api_response.json'
 
     # Task 1: Move all files and the directory clipper_output to trash
@@ -63,6 +64,10 @@ def main():
 
     # Task 5: Move all mp4 files in input_files to trash, excluding PLACE_CLIPS_HERE
     move_files_to_trash(input_files_dir, exclude_files=['PLACE_CLIPS_HERE'], file_extension='.mp4')
+
+    # Task 6: Move all mp4 files in subtitler_output to trash if the directory exists
+    if os.path.exists(subtitler_output_dir):
+        move_files_to_trash(subtitler_output_dir, file_extension='.mp4')
 
     # Clear the contents of api_response.json
     clear_file_contents(os.path.join(crew_output_dir, api_response_file))

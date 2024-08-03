@@ -9,9 +9,6 @@ import logging
 # Third party imports
 import ffmpeg
 
-# Local application imports
-# ...
-
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -33,8 +30,8 @@ def get_aspect_ratio_choice():
         print("Invalid choice. Please enter 1 or 2.")
 
 
-def main(input_video, subtitle_file_path, output_folder, aspect_ratio_choice):
-    logging.info('~~~CLIPPER: STARTED~~~')
+def process_video(input_video, subtitle_file_path, output_folder, aspect_ratio_choice):
+    logging.info('~~~CLIPPER: PROCESSING VIDEO~~~')
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -123,6 +120,11 @@ def main(input_video, subtitle_file_path, output_folder, aspect_ratio_choice):
         logging.error(f"ffmpeg error: {str(e)}")
 
 
+def main(input_video, subtitle_file_path, output_folder):
+    aspect_ratio_choice = get_aspect_ratio_choice()
+    process_video(input_video, subtitle_file_path, output_folder, aspect_ratio_choice)
+
+
 if __name__ == "__main__":
     video_files = glob.glob('input_files/*.mp4')
     subtitle_files = glob.glob('crew_output/*.srt')
@@ -136,4 +138,4 @@ if __name__ == "__main__":
 
     for video_file_path in video_files:
         for subtitle_file in subtitle_files:
-            main(video_file_path, subtitle_file, output_folder, aspect_ratio_choice)
+            process_video(video_file_path, subtitle_file, output_folder, aspect_ratio_choice)

@@ -35,6 +35,13 @@ for var in required_vars:
     if value is None or value == 'None':
         raise EnvironmentError(f"Required environment variable {var} is not set or is set to 'None'.")
 
+def get_aspect_ratio_choice():
+    while True:
+        choice = input("Choose aspect ratio for all videos: (1) Keep as original, (2) 1:1 (square): ")
+        if choice in ['1', '2']:
+            return choice
+        print("Invalid choice. Please enter 1 or 2.")
+
 def main():
     input_folder = './input_files'
     output_video_folder = './clipper_output'
@@ -68,6 +75,9 @@ def main():
         else:
             logging.info("Invalid choice. Please try again.")
 
+    # Get aspect ratio choice
+    aspect_ratio_choice = get_aspect_ratio_choice()
+
     # After processing with ytdl or local_whisper_process
     extracts_data = extracts.main()
     if extracts_data is None:
@@ -84,7 +94,7 @@ def main():
 
     for video_file in input_folder_path.glob('*.mp4'):
         for srt_file in crew_output_folder_path.glob('*.srt'):
-            clipper.main(str(video_file), str(srt_file), str(output_video_folder_path))
+            clipper.main(str(video_file), str(srt_file), str(output_video_folder_path), aspect_ratio_choice)
             logging.info(f"Processed {video_file} with {srt_file}")
 
     # Process with subtitler.py

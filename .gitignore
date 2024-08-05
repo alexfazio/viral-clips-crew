@@ -1,3 +1,6 @@
+# Ignore all .env files
+*.env
+
 .env
 crew_output
 whisper_output

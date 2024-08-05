@@ -353,3 +353,6 @@ if __name__ == "__main__":
         main(extracts_data)
     else:
         logging.error("Failed to generate extracts. Exiting.")
+
+# TO-DO: Change it so that `subtitler_agents` instead of returning entire subtitle files as .srt, they return the first and final time codes of when the quote would start and end (e.g., 00:02:51,400 --> 00:02:56,560).
+# TO-DO: After implementing this, a script copies and pastes the returned chunks of the script into an .srt file that will be used to burn in the subtitles.

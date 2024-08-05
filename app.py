@@ -111,3 +111,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# TODO: Change the options to: 1. Download YouTube video and transcribe locally 2. Download YouTube video and use remote transcript 3. Use existing video file to transcribe locally
+# TODO: Add an API key validator before proceeding with the execution to avoid discovering that the API key is invalid during later stages of the process.

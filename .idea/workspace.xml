@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging" />
+    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging">
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    </list>
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,8 +80,7 @@
       <workItem from="1717513228476" duration="2962000" />
       <workItem from="1717591146382" duration="5633000" />
       <workItem from="1718028200438" duration="10291000" />
-      <workItem from="1722699772520" duration="3977000" />
-      <workItem from="1722849431741" duration="1560000" />
+      <workItem from="1722878061309" duration="338000" />
     </task>
     <task id="LOCAL-00001" summary="dev branch">
       <option name="closed" value="true" />

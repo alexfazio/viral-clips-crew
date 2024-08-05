@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clipper.py" beforeDir="false" afterPath="$PROJECT_DIR$/clipper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crew.py" beforeDir="false" afterPath="$PROJECT_DIR$/crew.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crew_output/api_response.json" beforeDir="false" afterPath="$PROJECT_DIR$/crew_output/api_response.json" afterDir="false" />
-    </list>
+    <list default="true" id="ea1567de-8f81-411e-9106-df8d67456fc3" name="Changes" comment="refactor(logging): replace print statements with logging" />
     <list id="aa9c9d90-53e7-42e0-9319-acf3bf351799" name="Changes by tech" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

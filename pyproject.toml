@@ -33,6 +33,9 @@ maskpass = "*"
 youtube-transcript-api = "*"
 lockfile = "*"
 yt-dlp = "^2024.8.1"
+mlx = "^0.16.1"
+mlx-whisper = "^0.1.0"
+requests = "^2.32.3"
 
 [[tool.poetry.packages]]
 include = "*.py"

@@ -47,39 +47,45 @@ def call_openai_api(transcript):
     logging.info("STARTING call_openai_api")
 
     prompt = dedent(f"""
-        Here is the full transcript from the video:
-        
+        You will be given a complete transcript from a video. Your task is to identify three different 1-minute long clips from this video (approximately 8 spoken sentences for each clip) that have the highest potential to become popular on social media.
+
+        Here is the full transcript:
+
         <transcript>
         {transcript}
         </transcript>
         
-        Your task is to identify the three 1-minute long clips from this video that have the highest potential to go viral on social media.  
+        Carefully read through the entire transcript above, looking for the most powerful, emotionally impactful, surprising, thought-provoking or otherwise memorable moments. Your goal is to select three 1-minute long segments centered around these powerful moments that you think have the best chance of getting widely shared and going viral.
         
-        Carefully read through the entire transcript above, looking for the most powerful, emotionally impactful, surprising, thought-provoking or otherwise memorable moments. Select three 1-minute long segments centered around those powerful moments that you think have the best chance of getting widely shared and going viral.
+        Follow these steps:
+
+        1. Read the entire transcript carefully, identifying key moments that stand out as particularly impactful or shareable.
         
-        For each clip you select, extract the full text of the selected 1-minute segment from the transcript. 
+        2. For each of these moments, extract a 1-minute segment of text from the transcript, centered around that moment. Ensure each segment is approximately 1 minute long when spoken (about 8 sentences).
         
-        Order the three clips from most to least viral potential based on your assessment.
+        3. From these segments, choose the top three that you believe have the highest potential to go viral.
         
-        Format the final output as a JSON object containing an ordered list of the selected clips, each with its extracted text. The JSON object should look like this:
-    
+        4. Rank these three clips from most to least viral potential based on your assessment.
+        
+        Format your final output as a JSON object containing an ordered list of the selected clips, each with its extracted text. The JSON object should look like this:
+        
         {{
         "clips": [
             {{
             "rank": 1,
-            "text": "<extracted text of clip 1>"
+            "text": "<extracted text of key moment 1>"
             }},
             {{
             "rank": 2, 
-            "text": "<extracted text of clip 2>"
+            "text": "<extracted text of key moment 2>"
             }},
             {{
             "rank": 3,
-            "text": "<extracted text of clip 3>"
+            "text": "<extracted text of key moment 3>"
             }}
         ]
         }}
-    
+        
         Return nothing else but the raw content of the JSON object itself - no comments, no extra text. Just the JSON.
     """)
 
@@ -91,7 +97,7 @@ def call_openai_api(transcript):
                 {"role": "user", "content": prompt}
             ],
             temperature=0.8,
-            max_tokens=4095,
+            max_tokens=4096,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0
@@ -137,3 +143,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# TODO: Split the below tasks into separate API queries for different large language model (LLM) calls or agents to implement a divide-and-conquer approach.
+# 1. Read the entire transcript carefully, identifying key moments that stand out as particularly impactful or shareable.
+# 2. For each of these moments, extract a 1-minute segment of text from the transcript, centered around that moment. Ensure each segment is approximately 1 minute long when spoken (about 8 sentences).
+# 3. From these segments, choose the top three that you believe have the highest potential to go viral.
+# 4. Rank these three clips from most to least viral potential based on your assessment.

@@ -71,7 +71,7 @@ def main(extracts):
         max_rpm=1,
         llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-exp-0801",
                                    verbose=True,
-                                   temperature=0.5,
+                                   temperature=0.0,
                                    google_api_key=gemini_api_key)
     )
 
@@ -94,7 +94,7 @@ def main(extracts):
         max_rpm=1,
         llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-exp-0801",
                                    verbose=True,
-                                   temperature=0.5,
+                                   temperature=0.0,
                                    google_api_key=gemini_api_key)
     )
 
@@ -117,35 +117,33 @@ def main(extracts):
         max_rpm=1,
         llm=ChatGoogleGenerativeAI(model="gemini-1.5-pro-exp-0801",
                                    verbose=True,
-                                   temperature=0.5,
+                                   temperature=0.0,
                                    google_api_key=gemini_api_key)
     )
 
     return_subtitles_1 = Task(
         description=dedent((
             f"""
-            You will be provided with a list of transcription extracts from a video clip, and the full content of an .srt subtitle file corresponding to that clip. Your task is to match each transcription extract to the subtitle segment it best aligns with, and return the results in a specific format.
+            You will be provided with a transcription extract from a video clip and the full content of an .srt subtitle file corresponding to that clip. Your task is to match the transcription extract to the subtitle segment it best aligns with and return the results in a specific format.
         
-            Here are the transcription extracts:
+            Here is the transcription extract:
             <segments>
             {extracts[0]}
             </segments>
         
-            And here is the full content of the .srt subtitle file:
+            Here is the full content of the .srt subtitle file:
             <srt_file>
             {subtitles}
             </srt_file>
         
             Please follow these steps:
-            1. Carefully read through each transcription extract within the <segments> tags.
-            2. For each extract, search through the <srt_file> content to find the subtitle segment that best matches the extract. To determine the best match, look for segments that contain the most overlapping words or phrases with the extract.
-            3. Once you've found the best matching subtitle segment for an extract, format the match like this:
+            1. Carefully read through the transcription excerpt within the <segments> tags.
+            2. Given the extract, search through the <srt_file> content to find the subtitle segment that best matches the extract. To determine the best match, look for segments that contain the most overlapping words or phrases with the extract.
+            3. Once you've found the best matching subtitle segment for the excerpt, format the match as follows:
             [segment number]
             [start time] --> [end time] 
             [matched transcription extract]
-        
-            4. Repeat steps 1-3 for each transcription extract, keeping the extracts in the same order they appeared in the <segments> list.
-            5. After processing all the extracts, combine the formatted matches into a single block of text. This should look like a valid .srt subtitle file, with each match separated by a blank line.
+            5. After processing the extract, combine the formatted matches into a single block of text. This should resemble a valid .srt subtitle file, with each match separated by a blank line.
         
             Please note: .srt files have a specific format that must be followed exactly in order for them to be readable. Therefore, it is crucial that you do not include any extra content beyond the raw subtitle data itself. This means:
             - No comments explaining your work
@@ -194,28 +192,26 @@ def main(extracts):
     return_subtitles_2 = Task(
         description=dedent((
             f"""
-            You will be provided with a list of transcription extracts from a video clip, and the full content of an .srt subtitle file corresponding to that clip. Your task is to match each transcription extract to the subtitle segment it best aligns with, and return the results in a specific format.
+            You will be provided with a transcription extract from a video clip and the full content of an .srt subtitle file corresponding to that clip. Your task is to match the transcription extract to the subtitle segment it best aligns with and return the results in a specific format.
 
-            Here are the transcription extracts:
+            Here is the transcription extract:
             <segments>
             {extracts[1]}
             </segments>
 
-            And here is the full content of the .srt subtitle file:
+            Here is the full content of the .srt subtitle file:
             <srt_file>
             {subtitles}
             </srt_file>
 
             Please follow these steps:
-            1. Carefully read through each transcription extract within the <segments> tags.
-            2. For each extract, search through the <srt_file> content to find the subtitle segment that best matches the extract. To determine the best match, look for segments that contain the most overlapping words or phrases with the extract.
-            3. Once you've found the best matching subtitle segment for an extract, format the match like this:
+            1. Carefully read through the transcription excerpt within the <segments> tags.
+            2. Given the extract, search through the <srt_file> content to find the subtitle segment that best matches the extract. To determine the best match, look for segments that contain the most overlapping words or phrases with the extract.
+            3. Once you've found the best matching subtitle segment for the excerpt, format the match as follows:
             [segment number]
             [start time] --> [end time] 
             [matched transcription extract]
-
-            4. Repeat steps 1-3 for each transcription extract, keeping the extracts in the same order they appeared in the <segments> list.
-            5. After processing all the extracts, combine the formatted matches into a single block of text. This should look like a valid .srt subtitle file, with each match separated by a blank line.
+            5. After processing the extract, combine the formatted matches into a single block of text. This should resemble a valid .srt subtitle file, with each match separated by a blank line.
 
             Please note: .srt files have a specific format that must be followed exactly in order for them to be readable. Therefore, it is crucial that you do not include any extra content beyond the raw subtitle data itself. This means:
             - No comments explaining your work
@@ -265,28 +261,26 @@ def main(extracts):
     return_subtitles_3 = Task(
         description=dedent((
             f"""
-            You will be provided with a list of transcription extracts from a video clip, and the full content of an .srt subtitle file corresponding to that clip. Your task is to match each transcription extract to the subtitle segment it best aligns with, and return the results in a specific format.
+            You will be provided with a transcription extract from a video clip and the full content of an .srt subtitle file corresponding to that clip. Your task is to match the transcription extract to the subtitle segment it best aligns with and return the results in a specific format.
 
-            Here are the transcription extracts:
+            Here is the transcription extract:
             <segments>
             {extracts[2]}
             </segments>
 
-            And here is the full content of the .srt subtitle file:
+            Here is the full content of the .srt subtitle file:
             <srt_file>
             {subtitles}
             </srt_file>
 
             Please follow these steps:
-            1. Carefully read through each transcription extract within the <segments> tags.
-            2. For each extract, search through the <srt_file> content to find the subtitle segment that best matches the extract. To determine the best match, look for segments that contain the most overlapping words or phrases with the extract.
-            3. Once you've found the best matching subtitle segment for an extract, format the match like this:
+            1. Carefully read through the transcription excerpt within the <segments> tags.
+            2. Given the extract, search through the <srt_file> content to find the subtitle segment that best matches the extract. To determine the best match, look for segments that contain the most overlapping words or phrases with the extract.
+            3. Once you've found the best matching subtitle segment for the excerpt, format the match as follows:
             [segment number]
             [start time] --> [end time] 
             [matched transcription extract]
-
-            4. Repeat steps 1-3 for each transcription extract, keeping the extracts in the same order they appeared in the <segments> list.
-            5. After processing all the extracts, combine the formatted matches into a single block of text. This should look like a valid .srt subtitle file, with each match separated by a blank line.
+            5. After processing the extract, combine the formatted matches into a single block of text. This should resemble a valid .srt subtitle file, with each match separated by a blank line.
 
             Please note: .srt files have a specific format that must be followed exactly in order for them to be readable. Therefore, it is crucial that you do not include any extra content beyond the raw subtitle data itself. This means:
             - No comments explaining your work

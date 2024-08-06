@@ -4522,14 +4522,10 @@ version = "15.0.0"
 description = "Python 3 library for downloading YouTube Videos."
 optional = false
 python-versions = ">=3.7"
-files = []
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/pytube/pytube.git"
-reference = "HEAD"
-resolved_reference = "a32fff39058a6f7e5e59ecd06a7467b71197ce35"
+files = [
+    {file = "pytube-15.0.0-py3-none-any.whl", hash = "sha256:07b9904749e213485780d7eb606e5e5b8e4341aa4dccf699160876da00e12d78"},
+    {file = "pytube-15.0.0.tar.gz", hash = "sha256:076052efe76f390dfa24b1194ff821d4e86c17d41cb5562f3a276a8bcbfc9d1d"},
+]
 
 [[package]]
 name = "pywin32"
@@ -6156,4 +6152,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<=3.13"
-content-hash = "29d51092693bc3227729a11aad9c8087fcc675f1e72bd8db21156b756e5d02e8"
+content-hash = "dd6a3f32322bd1bff997935de53d4374036fc91ecc80d65c1ac94e5cce676894"

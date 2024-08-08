@@ -47,7 +47,7 @@ def call_openai_api(transcript):
     logging.info("STARTING call_openai_api")
 
     prompt = dedent(f"""
-        You will be given a complete transcript from a video. Your task is to identify three different 1-minute long clips from this video (approximately 8 spoken sentences for each clip) that have the highest potential to become popular on social media.
+        You will be given a complete transcript from a video. Your task is to identify three different 1-minute long clips from this video (approximately 16 spoken sentences for each clip) that have the highest potential to become popular on social media.
 
         Here is the full transcript:
 
@@ -61,7 +61,7 @@ def call_openai_api(transcript):
 
         1. Read the entire transcript carefully, identifying key moments that stand out as particularly impactful or shareable.
         
-        2. For each of these moments, extract a 1-minute segment of text from the transcript, centered around that moment. Ensure each segment is approximately 1 minute long when spoken (about 8 sentences).
+        2. For each of these moments, extract a 1-minute segment of text from the transcript, centered around that moment. Ensure each segment is approximately 1 minute long when spoken (about 16 sentences).
         
         3. From these segments, choose the top three that you believe have the highest potential to go viral.
         
@@ -73,15 +73,15 @@ def call_openai_api(transcript):
         "clips": [
             {{
             "rank": 1,
-            "text": "<extracted text of key moment 1>"
+            "text": "<extracted text for clip 1>"
             }},
             {{
             "rank": 2, 
-            "text": "<extracted text of key moment 2>"
+            "text": "<extracted text for clip 2>"
             }},
             {{
             "rank": 3,
-            "text": "<extracted text of key moment 3>"
+            "text": "<extracted text for clip 3>"
             }}
         ]
         }}
@@ -91,7 +91,7 @@ def call_openai_api(transcript):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-2024-08-06",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}

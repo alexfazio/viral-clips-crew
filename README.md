@@ -69,6 +69,12 @@ Final output will be in the `subtitler_output` directory.
 
 If you like this project and want to support it, please consider leaving a star. Every contribution helps keep the project running. Thank you!
 
+## Troubleshooting
+
+If you encounter a `TypeError: 'NoneType' object is not iterable`, please check the following:  
+- Ensure your API keys are correctly set in the `.env` file.  
+- Verify that you have enough pay-as-you-go credits in your OpenAI account and Google Cloud account.
+
 ## Note
 
 The code for `viral-clips-crew` is intended for demonstrative purposes and is not meant for production use. The API keys are hardcoded and need to be replaced with your own. Always ensure your keys are kept secure.

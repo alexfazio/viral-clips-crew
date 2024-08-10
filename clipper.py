@@ -62,9 +62,9 @@ def process_video(input_video, subtitle_file_path, output_folder, aspect_ratio_c
     # Log the calculated duration
     logging.info(f"Calculated Duration: {duration_seconds:.2f} seconds")
 
-    # Check if duration is 0 seconds or exceeds 2 minutes and 30 seconds
-    if duration_seconds <= 0:
-        logging.warning("Video fragment duration is 0 seconds. Skipping this subtitle file.")
+    # Check if duration is less than 30 seconds or exceeds 2 minutes and 30 seconds
+    if duration_seconds < 30:
+        logging.warning(f"Video fragment duration ({duration_seconds:.2f} seconds) is less than 30 seconds. Skipping this subtitle file.")
         return
     if duration_seconds > 150:  # 150 seconds = 2 minutes 30 seconds
         logging.warning(f"Video fragment duration ({duration_seconds:.2f} seconds) exceeds 2 minutes 30 seconds. Skipping this subtitle file.")

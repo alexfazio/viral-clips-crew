@@ -45,7 +45,7 @@ All required Python libraries are listed in `pyproject.toml`.
 4. Open `.env` and insert your OpenAI API key and Google Gemini API key.
 
     ```shell
-   $ echo "OPENAI_API_KEY=<your-api-key>
+   echo "OPENAI_API_KEY=<your-api-key>
    GEMINI_API_KEY=<your-api-key>" > .env
     ```
 

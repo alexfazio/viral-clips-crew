@@ -15,7 +15,6 @@ setuptools = "*"
 python-decouple = "*"
 langchain-community = "*"
 openai-whisper = {git = "https://github.com/openai/whisper.git"}
-#pytube = {git = "https://github.com/pytube/pytube.git"}
 torch = "*"
 ffmpeg-python = "*"
 crewai_tools = "*"
@@ -26,8 +25,6 @@ maskpass = "*"
 youtube-transcript-api = "*"
 lockfile = "*"
 yt-dlp = "*"
-mlx = "*"
-mlx-whisper = "*"
 requests = "*"
 
 [[tool.poetry.packages]]

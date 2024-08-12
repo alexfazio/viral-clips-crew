@@ -3,6 +3,7 @@ import os
 import warnings
 import logging
 from pathlib import Path
+from send2trash import send2trash
 
 # Third party imports
 from dotenv import load_dotenv
@@ -42,6 +43,17 @@ def get_aspect_ratio_choice():
             return choice
         print("Invalid choice. Please enter 1 or 2.")
 
+def clean_whisper_output():
+    whisper_output_folder = './whisper_output'
+    for filename in os.listdir(whisper_output_folder):
+        file_path = os.path.join(whisper_output_folder, filename)
+        try:
+            if os.path.isfile(file_path):
+                send2trash(file_path)
+                logging.info(f"Moved {file_path} to trash")
+        except Exception as e:
+            logging.error(f"Error while moving {file_path} to trash: {e}")
+
 def main():
     input_folder = './input_files'
     output_video_folder = './clipper_output'
@@ -70,6 +82,7 @@ def main():
             if not os.listdir(input_folder):
                 logging.error(f"No video files found in the folder: {input_folder}")
                 continue
+            clean_whisper_output()  # Clean whisper_output folder
             local_whisper_process(input_folder, whisper_output_folder)
             break
         else:

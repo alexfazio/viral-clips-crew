@@ -9,3 +9,4 @@ input_files/*
 !input_files/PLACE_CLIPS_HERE
 .idea/
 .DS_Store/
+**/.DS_Store

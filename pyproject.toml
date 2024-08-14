@@ -14,17 +14,9 @@ crewai = "0.30.0rc5"
 setuptools = "*"
 python-decouple = "*"
 langchain-community = "*"
-# ↑ uncomment to use OpenAI API
-# langchain_groq = "*"
-# ↑ uncomment to use Groq's API
-langchain-anthropic = "*"
-# ↑ uncomment to use Anthropic's API
-# whisper = "*"
 openai-whisper = {git = "https://github.com/openai/whisper.git"}
-pytube = {git = "https://github.com/pytube/pytube.git"}
 torch = "*"
 ffmpeg-python = "*"
-icecream = "*"
 crewai_tools = "*"
 openai = "*"
 send2trash = "*"
@@ -32,7 +24,8 @@ langchain_google_genai = "*"
 maskpass = "*"
 youtube-transcript-api = "*"
 lockfile = "*"
-yt-dlp = "^2024.8.1"
+yt-dlp = "*"
+requests = "*"
 
 [[tool.poetry.packages]]
 include = "*.py"

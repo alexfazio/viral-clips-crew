@@ -50,6 +50,10 @@ All required Python libraries are listed in `pyproject.toml`.
 
 5. Open `.env` and insert your OpenAI API key and Google Gemini API key.
 
+    ```shell
+   echo -e "OPENAI_API_KEY=<your-api-key>\nGEMINI_API_KEY=<your-api-key>" > .env
+    ```
+
 ## Usage
 
 After setting up, drag your desired clip into the `input_files` directory. 
@@ -69,6 +73,12 @@ Final output will be in the `subtitler_output` directory.
 ## Support
 
 If you like this project and want to support it, please consider leaving a star. Every contribution helps keep the project running. Thank you!
+
+## Troubleshooting
+
+If you encounter a `TypeError: 'NoneType' object is not iterable`, please check the following:  
+- Ensure your API keys are correctly set in the `.env` file.  
+- Verify that you have enough pay-as-you-go credits in your OpenAI account and Google Cloud account.
 
 ## Note
 

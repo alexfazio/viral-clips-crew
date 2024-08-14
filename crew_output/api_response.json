@@ -1,0 +1,24 @@
+{
+    "clips": [
+        {
+            "rank": 1,
+            "text": "Demis Hassabis: \"I think it's more the latter. So I would say that in the near term, it's hyped too much. So I think people are claiming it can do all sorts of things it can't. There's all sorts of, you know, startups and VC money chasing crazy ideas that don't, you know, they're just not ready. On the other hand, I think it's still under, I know, I know, I know, exactly, exactly. But, but, um, you know, I think it's still underhyped, or perhaps underappreciated still, even now, what's going to happen when we get to AGI and post-AGI.\"",
+            "wordcount": 102
+        },
+        {
+            "rank": 2,
+            "text": "Demis Hassabis: \"Well, I think it's great that governments are getting up to speed on it and involved. I think that's one of the good things about the recent explosion of interest is that of course governments are paying attention. And I think it's been great UK government specifically who I've talked to a lot and US as well. They've got very smart people in the civil service stuff that are, um, understand the technology now to to a good degree. And it's been great to see the AI safety institutes being set up in the UK and US and I think many other countries are going to follow. So I think these are all good precedents and protocols.\"",
+            "wordcount": 114
+        },
+        {
+            "rank": 3,
+            "text": "Demis Hassabis: \"The problem is that we need more. I think this is one thing the whole field needs is much better benchmarks. Well, there are some well-known benchmarks, academic ones, but they're kind of getting saturated now, and they don't differentiate between the nuances between the different top models. I would say there's sort of three models that are kind of at the top of the frontier. So it's, um, Gemini from us, OpenAI GPT of course, and then Anthropic with their Claude models. And then obviously there's a bunch of other good models too that, you know, people like Meta and Mistral and others built, and they're differently good at different things.\"",
+            "wordcount": 111
+        },
+        {
+            "rank": 4,
+            "text": "Demis Hassabis: \"Yeah, well, look, we're huge supporters of open source and open science. As you know, we've, I mean, we've given away and published almost everything we've done, uh, you know, collectively including like things like transformers, right, and AlphaGo. I published all these things in Nature and Science, AlphaFold was open source as we covered last time. And these are all good choices. And you're absolutely right, that's the reason that all works is because that's the way technology and science advances as quickly as possible by sharing information. So almost always, that's a universal good to do it like that, and that's how science works.\"",
+            "wordcount": 109
+        }
+    ]
+}

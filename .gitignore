@@ -1,6 +1,12 @@
+# Ignore all .env files
+*.env
+
 .env
 crew_output
 whisper_output
 clipper_output
 input_files/*
 !input_files/PLACE_CLIPS_HERE
+.idea/
+.DS_Store/
+**/.DS_Store

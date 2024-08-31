@@ -1,10 +1,15 @@
-# viral-clips-crew (prototype)
+<a href="https://x.com/alxfazio" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="images/vcc-github-banner.png">
+    <img alt="OpenAI Cookbook Logo" src="images/vcc-github-banner.png" width="400px" style="max-width: 100%; margin-bottom: 20px;">
+  </picture>
+</a>
+
+Your [CrewAI](https://github.com/joaomdmoura/crewAI) Powered Video Editing Assistant
 
 <div align="center">
   <img src="https://github.com/alexfazio/viral-clips-crew/assets/34505954/c69da629-06eb-4279-a5cb-0d8d7fc1dfee" width="600px" height="auto">
 </div>
-
-# Your [CrewAI](https://github.com/joaomdmoura/crewAI) Powered Video Editing Assistant
 
 Are you a social media content curator? Skip the tedious editing process and get polished video highlights in minutes. `viral-clips-crew` watches and listens to long-form content, extracting the most striking and potentially viral segments, ready for publication on social media.
 

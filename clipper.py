@@ -14,6 +14,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 warnings.filterwarnings("ignore")
 
+
 def convert_timestamp(timestamp):
     return timestamp.replace(',', '.').strip()
 
@@ -64,10 +65,12 @@ def process_video(input_video, subtitle_file_path, output_folder, aspect_ratio_c
 
     # Check if duration is less than 30 seconds or exceeds 2 minutes and 30 seconds
     if duration_seconds < 30:
-        logging.warning(f"Video fragment duration ({duration_seconds:.2f} seconds) is less than 30 seconds. Skipping this subtitle file.")
+        logging.warning(
+            f"Video fragment duration ({duration_seconds:.2f} seconds) is less than 30 seconds. Skipping this subtitle file.")
         return
     if duration_seconds > 150:  # 150 seconds = 2 minutes 30 seconds
-        logging.warning(f"Video fragment duration ({duration_seconds:.2f} seconds) exceeds 2 minutes 30 seconds. Skipping this subtitle file.")
+        logging.warning(
+            f"Video fragment duration ({duration_seconds:.2f} seconds) exceeds 2 minutes 30 seconds. Skipping this subtitle file.")
         return
 
     # Construct the output video path using the subtitle file name as a prefix
@@ -99,7 +102,7 @@ def process_video(input_video, subtitle_file_path, output_folder, aspect_ratio_c
                 crop_size = width
                 x_offset = 0
                 y_offset = (height - crop_size) // 2
-            
+
             # Apply crop filter
             video = input_stream.video.filter('crop', crop_size, crop_size, x_offset, y_offset)
         else:
@@ -108,11 +111,11 @@ def process_video(input_video, subtitle_file_path, output_folder, aspect_ratio_c
         audio = input_stream.audio
 
         # Re-encode the video
-        output = ffmpeg.output(video, audio, output_video_path, 
-                               vcodec='libx264', acodec='aac', 
-                               audio_bitrate='192k', 
+        output = ffmpeg.output(video, audio, output_video_path,
+                               vcodec='libx264', acodec='aac',
+                               audio_bitrate='192k',
                                **{'vsync': 'vfr'})
-        
+
         ffmpeg.run(output, overwrite_output=True)
         logging.info(f"Trimmed video saved to {output_video_path}")
 

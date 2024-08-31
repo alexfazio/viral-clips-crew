@@ -90,7 +90,10 @@ Thank you to [Rip&Tear](https://x.com/Cyb3rCh1ck3n) for his ongoing assistance i
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+[MIT](https://opensource.org/licenses/MIT)
 
+Copyright (c) 2024-present, Alex Fazio
+
+---
 
 [![Watch the video](https://i.imgur.com/TBD2bvj.png)](https://x.com/alxfazio/status/1791863931931078719)

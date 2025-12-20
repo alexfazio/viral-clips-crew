@@ -5,12 +5,52 @@ import subprocess
 import re
 import datetime
 import logging
+import urllib.request
+import zipfile
+from pathlib import Path
 
 # Third party imports
 
 # Local application imports
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+FONTS_CACHE_DIR = Path.home() / ".viral-clips-fonts"
+GOOGLE_FONT = "Montserrat"
+
+
+def get_google_font(font_name: str) -> tuple[Path, str]:
+    """
+    Downloads a Google Font and returns (font_directory, ttf_filename).
+    """
+    FONTS_CACHE_DIR.mkdir(exist_ok=True)
+    font_dir = FONTS_CACHE_DIR / font_name
+
+    if not font_dir.exists():
+        url = f"https://fonts.google.com/download?family={font_name.replace(' ', '+')}"
+        zip_path = FONTS_CACHE_DIR / f"{font_name}.zip"
+
+        logging.info(f"Downloading font: {font_name}")
+        urllib.request.urlretrieve(url, zip_path)
+
+        font_dir.mkdir(exist_ok=True)
+        with zipfile.ZipFile(zip_path, 'r') as zf:
+            zf.extractall(font_dir)
+        zip_path.unlink()
+
+    ttf_files = list(font_dir.glob("**/*.ttf"))
+    if not ttf_files:
+        raise FileNotFoundError(f"No TTF files found for {font_name}")
+
+    chosen_ttf = ttf_files[0]
+    for ttf in ttf_files:
+        if "Regular" in ttf.name:
+            chosen_ttf = ttf
+            break
+        elif "Bold" in ttf.name:
+            chosen_ttf = ttf
+
+    return font_dir, chosen_ttf.stem
 
 
 def adjust_subtitle_timing(subtitle_path, output_path):
@@ -67,14 +107,24 @@ def burn_subtitles(video_path, subtitle_path, output_video_path):
     """
     Uses ffmpeg to burn subtitles into the video.
     """
+    escaped_path = subtitle_path.replace(":", r"\:").replace("'", r"\'")
+
+    if GOOGLE_FONT:
+        font_dir, font_name = get_google_font(GOOGLE_FONT)
+        escaped_font_dir = str(font_dir).replace(":", r"\:").replace("'", r"\'")
+        subtitle_filter = f"subtitles={escaped_path}:fontsdir={escaped_font_dir}:force_style='FontName={font_name}'"
+    else:
+        subtitle_filter = f"subtitles={escaped_path}"
+
     cmd = [
         'ffmpeg',
         '-i', video_path,
-        '-vf', f"subtitles={subtitle_path}",
+        '-vf', subtitle_filter,
         '-c:a', 'copy',
+        '-y',
         output_video_path
     ]
-    
+
     try:
         subprocess.run(cmd, check=True)
         logging.info(f"Subtitles have been burned into the video: {output_video_path}")

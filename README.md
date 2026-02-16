@@ -9,9 +9,8 @@ Your [CrewAI](https://github.com/joaomdmoura/crewAI) Powered Video Editing Assis
 
 Are you a social media content curator? Skip the tedious editing process and get polished video highlights in minutes. `viral-clips-crew` watches and listens to long-form content, extracting the most striking and potentially viral segments, ready for publication on social media.
 
-## Vibe Code Alert
-
-This project was 99% vibe coded as a fun Saturday hack. I'm not going to support it in any way, it's provided here as is for other people's inspiration and I don't intend to improve it. Code is ephemeral now and libraries are over, ask your LLM to change it in whatever way you like.
+> [!note]
+> This project was 99% vibe coded as a fun Saturday hack. I'm not going to support it in any way, it's provided here as is for other people's inspiration and I don't intend to improve it. Code is ephemeral now and libraries are over, ask your LLM to change it in whatever way you like.
 
 ## Content Repurposing Made Easy
 
